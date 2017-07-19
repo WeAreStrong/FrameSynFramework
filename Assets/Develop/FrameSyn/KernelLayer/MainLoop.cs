@@ -34,7 +34,7 @@
 
         public void Update()
         {
-            mPassedTime += RealTime.deltaTime;
+            mPassedTime += (int)(UnityEngine.Time.deltaTime * 1000);
 
             while (mPassedTime >= frequency)
             {

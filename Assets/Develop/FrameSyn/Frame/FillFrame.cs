@@ -5,6 +5,16 @@
     /// </summary>
     public class FillFrame : Frame
     {
+        public FillFrame()
+        {
+
+        }
+
+        public override FrameType frameType
+        {
+            get { return FrameType.Fill; }
+        }
+
         public override void Process()
         {
         }

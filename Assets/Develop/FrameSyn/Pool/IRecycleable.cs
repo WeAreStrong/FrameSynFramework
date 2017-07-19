@@ -1,5 +1,8 @@
-﻿public interface IRecycleable
+﻿namespace FrameSyn
 {
-    void OnRecycle();
-    void OnReuse();
+    public interface IRecycleable
+    {
+        void OnRecycle();
+        void OnReuse();
+    }
 }

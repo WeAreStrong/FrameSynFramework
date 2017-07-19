@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using FrameSyn;
 
 public class Pool<T> where T : IRecycleable, new()
 {
@@ -25,11 +26,22 @@ public class Pool<T> where T : IRecycleable, new()
         else
         {
             T cache = new T();
-            mCaches.Add(cache);
+            mUsing.Add(cache);
             cache.OnReuse();
-
             return cache;
         }
+    }
+
+    public void AddRange(IEnumerable<T> caches)
+    {
+        IEnumerator<T> iter = caches.GetEnumerator();
+        while (iter.MoveNext())
+        {
+            mCaches.Add(iter.Current);
+        }
+
+        iter.Reset();
+        iter.Dispose();
     }
 
     public void Recycle(T t)
