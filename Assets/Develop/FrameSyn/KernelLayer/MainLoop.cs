@@ -2,6 +2,15 @@
 {
     public class MainLoop
     {
+        private int mUpdateCycle = 1;
+
+        protected int frequency
+        {
+            get { return 1000 / mUpdateCycle; }
+        }
+
+        private int mPassedTime = 0;
+
         private WaitForCalls mUpdates;
         private WaitForCalls mLateUpdates;
 
@@ -15,15 +24,23 @@
             get { return mLateUpdates; }
         }
 
-        public MainLoop()
+        public MainLoop(int updateCycle)
         {
             mUpdates = new WaitForCalls();
             mLateUpdates = new WaitForCalls();
+
+            mUpdateCycle = updateCycle;
         }
 
         public void Update()
         {
-            mUpdates.Run();
+            mPassedTime += RealTime.deltaTime;
+
+            while (mPassedTime >= frequency)
+            {
+                mPassedTime -= frequency;
+                mUpdates.Run();
+            }
         }
 
         public void LateUpdate()

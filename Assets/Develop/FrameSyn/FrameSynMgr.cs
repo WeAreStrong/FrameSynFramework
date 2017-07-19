@@ -3,35 +3,45 @@ using FrameSyn;
 
 public class FrameSynMgr : MonoBehaviour
 {
-    private int mFramesWaitForRun = 0;
-
-    private MainLoop mMainLoop;
+    private MainLoop mLogicLoop;
+    private MainLoop mShowLoop;
+    private bool mBegin = false;
 
 	// Use this for initialization
 	void Start ()
     {
-        Application.targetFrameRate = 30;
+        mLogicLoop = new MainLoop(Settings.KernelUpdateCycle);
+        mShowLoop = new MainLoop(Settings.ShowUpdateCycle);
 
-        mMainLoop = new MainLoop();
         RealTime.Reset();
 	}
 	
 	// Update is called once per frame
 	void Update()
     {
-        if (mFramesWaitForRun <= 0)
-        {
-            return;
-        }
-        --mFramesWaitForRun;
+        if (mBegin == false) return;
 
         RealTime.OnUpdate();
 
-        mMainLoop.Update();
+        mLogicLoop.Update();
+        mShowLoop.Update();
 	}
 
     void LateUpdate()
     {
-        mMainLoop.LateUpdate();
+        if (mBegin == false) return;
+
+        mLogicLoop.LateUpdate();
+        mShowLoop.LateUpdate();
+    }
+
+    public void Begin()
+    {
+        mBegin = true;
+    }
+
+    public void End()
+    {
+        mBegin = false;
     }
 }
