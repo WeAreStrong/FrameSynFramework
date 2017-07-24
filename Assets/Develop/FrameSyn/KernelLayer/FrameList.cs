@@ -52,9 +52,9 @@
                 int count = mQueue.Count;
                 if (count >= 5)
                 {
-                    return 2;
+                    return Settings.MAX_SPEEDUP_RATE;
                 }
-                else if (count >= 1)
+                else if (count == 1)
                 {
                     return 1;
                 }

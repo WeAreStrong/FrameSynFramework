@@ -10,4 +10,6 @@
     public const int ServerFrameDelta = 20;
 
     public const int ServerFrameStep = 1;
+
+    public const int MAX_SPEEDUP_RATE = 3;
 }
