@@ -35,5 +35,11 @@
                 mCallbacks.Remove(mPrepareForRemove[i]);
             }
         }
+
+        public void Clear()
+        {
+            mCallbacks.Clear();
+            mPrepareForRemove.Clear();
+        }
     }
 }

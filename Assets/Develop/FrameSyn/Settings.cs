@@ -9,5 +9,5 @@
     /// </summary>
     public const int ServerFrameDelta = 20;
 
-    public const int ServerFrameStep = 10;
+    public const int ServerFrameStep = 1;
 }

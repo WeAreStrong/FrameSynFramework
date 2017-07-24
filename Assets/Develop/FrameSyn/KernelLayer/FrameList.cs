@@ -44,5 +44,32 @@
             ++mFrameIdx;
             mLockFrameID = mFrameIdx * Settings.ServerFrameStep;
         }
+
+        public int speedupRate
+        {
+            get
+            {
+                int count = mQueue.Count;
+                if (count >= 5)
+                {
+                    return 2;
+                }
+                else if (count >= 1)
+                {
+                    return 1;
+                }
+                else
+                {
+                    return 0;
+                }
+            }
+        }
+
+        public void Clear()
+        {
+            mFrameIdx = 0;
+            mLockFrameID = 0;
+            mQueue.Clear();
+        }
     }
 }

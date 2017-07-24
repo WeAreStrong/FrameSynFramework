@@ -50,4 +50,10 @@ public class Pool<T> where T : IRecycleable, new()
         mUsing.Remove(t);
         mCaches.Add(t);
     }
+
+    public void Release()
+    {
+        mUsing.Clear();
+        mCaches.Clear();
+    }
 }

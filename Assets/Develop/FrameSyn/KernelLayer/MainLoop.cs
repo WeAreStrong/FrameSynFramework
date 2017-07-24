@@ -11,6 +11,12 @@
 
         private int mPassedTime = 0;
 
+        private int mFrameNr = 0;
+        public int frameNr
+        {
+            get { return mFrameNr; }
+        }
+
         private WaitForCalls mUpdates;
         private WaitForCalls mLateUpdates;
 
@@ -40,12 +46,23 @@
             {
                 mPassedTime -= frequency;
                 mUpdates.Run();
+
+                ++mFrameNr;
             }
         }
 
         public void LateUpdate()
         {
             mLateUpdates.Run();
+        }
+
+        public void Clear()
+        {
+            mUpdateCycle = 1;
+            mPassedTime = 0;
+            mFrameNr = 0;
+            mUpdates.Clear();
+            mLateUpdates.Clear();
         }
     }
 }

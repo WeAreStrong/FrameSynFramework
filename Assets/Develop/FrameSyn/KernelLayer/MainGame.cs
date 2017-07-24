@@ -4,8 +4,11 @@
     {
         public static Pool<KeyFrame> mKeyFramePool;
         public static Pool<FillFrame> mFillFramePool;
+        public static FrameList mFrameList;
+        public static MainLoop mLogicLoop;
+        public static MainLoop mShowLoop;
 
-        public MainGame()
+        public static void Init()
         {
             mKeyFramePool = new Pool<KeyFrame>();
             mFillFramePool = new Pool<FillFrame>();
@@ -23,6 +26,17 @@
                 fillFrames[i] = new FillFrame();
             }
             mFillFramePool.AddRange(fillFrames);
+
+            mFrameList = new FrameList();
+        }
+
+        public static void Release()
+        {
+            mKeyFramePool.Release();
+            mFillFramePool.Release();
+            mFrameList.Clear();
+            mLogicLoop.Clear();
+            mShowLoop.Clear();
         }
     }
  }
