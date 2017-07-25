@@ -20,6 +20,8 @@
         public override void Process()
         {
             mOpaData.OnProcess();
+
+            MainGame.mKeyFramePool.Recycle(this);
         }
 
         public override void OnRecycle()

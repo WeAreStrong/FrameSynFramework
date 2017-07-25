@@ -17,6 +17,7 @@
 
         public override void Process()
         {
+            MainGame.mFillFramePool.Recycle(this);
         }
     }
 }

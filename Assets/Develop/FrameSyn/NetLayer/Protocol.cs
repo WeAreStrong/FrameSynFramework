@@ -55,7 +55,8 @@
                 Message msg = mWaitForSendBuffer.Peek();
                 if (msg.sequenceID <= sequenceID)
                 {
-                    mWaitForSendBuffer.Dequeue();
+                    Message readyForRecycle = mWaitForSendBuffer.Dequeue();
+                    mMsgPool.Recycle(readyForRecycle);
                 }
 
                 if (msg.sequenceID == sequenceID)
