@@ -16,6 +16,7 @@ public class FrameSynMgr : MonoBehaviour
         MainGame.mLogicLoop.updates.Add(RealTime.OnUpdate);
         //------------ Add logic updates
         //------------ Add show updates
+        MainGame.mShowLoop.updates.Add(Move.OnUpdate);
 
         RealTime.Reset();
 	}
@@ -27,7 +28,7 @@ public class FrameSynMgr : MonoBehaviour
 
         for (int i = 1; i <= MainGame.mFrameList.speedupRate; ++i)
         {
-            MainGame.mLogicLoop.Update();
+            //MainGame.mLogicLoop.Update();
         }
         
         MainGame.mShowLoop.Update();
@@ -41,11 +42,13 @@ public class FrameSynMgr : MonoBehaviour
         MainGame.mShowLoop.LateUpdate();
     }
 
+    [ContextMenu("Begin")]
     public void Begin()
     {
         mBegin = true;
     }
 
+    [ContextMenu("End")]
     public void End()
     {
         mBegin = false;
