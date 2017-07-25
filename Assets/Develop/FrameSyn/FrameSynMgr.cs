@@ -15,10 +15,13 @@ public class FrameSynMgr : MonoBehaviour
 
         MainGame.mLogicLoop.updates.Add(RealTime.OnUpdate);
         //------------ Add logic updates
+        MainGame.mLogicLoop.updates.Add(MainGame.mFrameList.Update);
         //------------ Add show updates
         MainGame.mShowLoop.updates.Add(Move.OnUpdate);
 
         RealTime.Reset();
+
+        Begin();
 	}
 	
 	// Update is called once per frame
@@ -28,7 +31,7 @@ public class FrameSynMgr : MonoBehaviour
 
         for (int i = 1; i <= MainGame.mFrameList.speedupRate; ++i)
         {
-            //MainGame.mLogicLoop.Update();
+            MainGame.mLogicLoop.Update();
         }
         
         MainGame.mShowLoop.Update();

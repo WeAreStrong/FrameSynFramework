@@ -2,10 +2,15 @@
 {
     public class Network
     {
-        private void OnFrameStep(int frameId)
+        public static void OnOperationClick(int frameId, int x, int y)
         {
-            MainGame.mFrameList.AddFrame(frameId, FrameType.Key);
+            OperationData_Click opaData = new OperationData_Click();
+            opaData.x = x;
+            opaData.y = y;
 
+            KeyFrame keyFrame = MainGame.mKeyFramePool.Get();
+            keyFrame.mOpaData = opaData;
+            MainGame.mFrameList.AddFrame(frameId, keyFrame);
             MainGame.mFrameList.LockFrame();
         }
     }

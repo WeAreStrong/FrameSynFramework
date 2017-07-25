@@ -3,13 +3,17 @@ module("TestMove", package.seeall)
 function Init()
     Socket:OnPushEvent("onChat", function(msg)
         SocketQueue:Push(function()
-            error(msg);
+            local tbMsg = json.decode(msg);
+            local tbContent = json.decode(tbMsg.content);
+            local frameID = tbContent.fid;
+            print("Deal onChat");
+            FrameSyn.Network.Network.OnOperationClick(frameID, tbContent.x, tbContent.y);
         end);
     end);
 end
 
-function SendMove(point)
-	local str = string.format('{"x":%d,"y":%d}', point.x, point.y);
+function SendMove(point, frameID)
+	local str = string.format('{"x":%d,"y":%d,"fid":%d}', point.x, point.y, frameID);
     local param = 
     {
         content = str,

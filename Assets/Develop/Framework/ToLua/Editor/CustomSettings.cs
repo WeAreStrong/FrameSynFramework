@@ -151,6 +151,7 @@ public static class CustomSettings
 
         _GT(typeof(ByteBuffer)),
         _GT(typeof(ClientSocket)),
+        _GT(typeof(FrameSyn.Network.Network)),
     };
 
     public static List<Type> dynamicList = new List<Type>()

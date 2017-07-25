@@ -197,11 +197,12 @@ namespace LuaInterface
         {
             byte[] str= null;
             string strPath = LuaConst.LuaDir + fileName;
-            #if UNITY_EDITOR    
+            #if UNITY_EDITOR
                 strPath += ".lua";
                 str = File.ReadAllBytes(strPath);
             #else
-                str = GetResMgr().LoadLua(strPath);
+                Debug.Log(strPath);
+                str = Resources.Load<TextAsset>(strPath).bytes;
             #endif 
             return str;
 

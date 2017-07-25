@@ -6,12 +6,12 @@ SocketQueue = require('SocketQueue')
 local mTcpPrefix = 'fifa-dev.mbgadev.cn';
 local mTcpPort = 3050;
 
-function Main()
+function Main(_uid)
 	local socket = require("Socket");
 	Socket = socket.new();
     local user = 
     {
-        uid = "58f7035db4613d0b01e93770",
+        uid = _uid,
         sid = 1
     }
 

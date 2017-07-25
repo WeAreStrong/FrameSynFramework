@@ -15,23 +15,8 @@
 
         private Queue<Frame> mQueue = new Queue<Frame>();
 
-        public void AddFrame(int frameID, FrameType frameType)
+        public void AddFrame(int frameID, Frame frame)
         {
-            Frame frame = null;
-
-            switch (frameType)
-            {
-                case FrameType.Key:
-                    frame = MainGame.mKeyFramePool.Get();
-                    break;
-                case FrameType.Fill:
-                    frame = MainGame.mFillFramePool.Get();
-                    break;
-                default:
-
-                    break;
-            }
-
             if (frame != null)
             {
                 frame.frameID = frameID + mFrameIdx * Settings.ServerFrameStep;
@@ -45,10 +30,20 @@
             mLockFrameID = mFrameIdx * Settings.ServerFrameStep;
         }
 
+        public void Update()
+        {
+            if (mQueue.Count > 0)
+            {
+                Frame frame = mQueue.Dequeue();
+                frame.Process();
+            }
+        }
+
         public int speedupRate
         {
             get
             {
+                return 1;
                 int count = mQueue.Count;
                 if (count >= 5)
                 {
