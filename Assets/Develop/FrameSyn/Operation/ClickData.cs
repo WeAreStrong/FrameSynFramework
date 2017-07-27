@@ -5,9 +5,17 @@
         public int x = 0;
         public int y = 0;
 
+        private static Move move = null;
+
+        static OperationData_Click()
+        {
+            move = new Move();
+            MainGame.mShowLoop.updates.Add(move.OnUpdate);
+        }
+
         public override void OnProcess()
         {
-            Move.to = new UnityEngine.Vector3(x, y);
+            move.to = new UnityEngine.Vector3(x, y);
         }
     }
 }

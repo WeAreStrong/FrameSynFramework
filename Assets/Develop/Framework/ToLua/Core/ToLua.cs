@@ -458,6 +458,7 @@ namespace LuaInterface
 #if UNITY_EDITOR
         private static bool GetConsoleWindowListView()
         {
+#if !UNITY_2017
             if (logListView == null)
             {
                 Assembly unityEditorAssembly = Assembly.GetAssembly(typeof(EditorWindow));
@@ -481,7 +482,7 @@ namespace LuaInterface
                 logEntry = Activator.CreateInstance(logEntryType);
                 logEntryCondition = logEntryType.GetField("condition", BindingFlags.Instance | BindingFlags.Public);                
             }
-
+#endif
             return true;
         }
 

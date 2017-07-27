@@ -34,6 +34,7 @@ public class UnityEngine_PhysicsWrap
 		L.RegFunction("GetIgnoreLayerCollision", GetIgnoreLayerCollision);
 		L.RegFunction("ComputePenetration", ComputePenetration);
 		L.RegFunction("ClosestPoint", ClosestPoint);
+		L.RegFunction("Simulate", Simulate);
 		L.RegConstant("IgnoreRaycastLayer", 4);
 		L.RegConstant("DefaultRaycastLayers", -5);
 		L.RegConstant("AllLayers", -1);
@@ -45,6 +46,7 @@ public class UnityEngine_PhysicsWrap
 		L.RegVar("sleepThreshold", get_sleepThreshold, set_sleepThreshold);
 		L.RegVar("queriesHitTriggers", get_queriesHitTriggers, set_queriesHitTriggers);
 		L.RegVar("queriesHitBackfaces", get_queriesHitBackfaces, set_queriesHitBackfaces);
+		L.RegVar("autoSimulation", get_autoSimulation, set_autoSimulation);
 		L.EndStaticLibs();
 	}
 
@@ -1975,6 +1977,22 @@ public class UnityEngine_PhysicsWrap
 	}
 
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+	static int Simulate(IntPtr L)
+	{
+		try
+		{
+			ToLua.CheckArgsCount(L, 1);
+			float arg0 = (float)LuaDLL.luaL_checknumber(L, 1);
+			UnityEngine.Physics.Simulate(arg0);
+			return 0;
+		}
+		catch(Exception e)
+		{
+			return LuaDLL.toluaL_exception(L, e);
+		}
+	}
+
+	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
 	static int get_gravity(IntPtr L)
 	{
 		try
@@ -2078,6 +2096,20 @@ public class UnityEngine_PhysicsWrap
 		try
 		{
 			LuaDLL.lua_pushboolean(L, UnityEngine.Physics.queriesHitBackfaces);
+			return 1;
+		}
+		catch(Exception e)
+		{
+			return LuaDLL.toluaL_exception(L, e);
+		}
+	}
+
+	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+	static int get_autoSimulation(IntPtr L)
+	{
+		try
+		{
+			LuaDLL.lua_pushboolean(L, UnityEngine.Physics.autoSimulation);
 			return 1;
 		}
 		catch(Exception e)
@@ -2198,6 +2230,21 @@ public class UnityEngine_PhysicsWrap
 		{
 			bool arg0 = LuaDLL.luaL_checkboolean(L, 2);
 			UnityEngine.Physics.queriesHitBackfaces = arg0;
+			return 0;
+		}
+		catch(Exception e)
+		{
+			return LuaDLL.toluaL_exception(L, e);
+		}
+	}
+
+	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+	static int set_autoSimulation(IntPtr L)
+	{
+		try
+		{
+			bool arg0 = LuaDLL.luaL_checkboolean(L, 2);
+			UnityEngine.Physics.autoSimulation = arg0;
 			return 0;
 		}
 		catch(Exception e)

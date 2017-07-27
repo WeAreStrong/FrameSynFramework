@@ -13,7 +13,7 @@ public class UnityEngine_ApplicationWrap
 		L.RegFunction("GetStreamProgressForLevel", GetStreamProgressForLevel);
 		L.RegFunction("CanStreamedLevelBeLoaded", CanStreamedLevelBeLoaded);
 		L.RegFunction("GetBuildTags", GetBuildTags);
-		L.RegFunction("CaptureScreenshot", CaptureScreenshot);
+		L.RegFunction("SetBuildTags", SetBuildTags);
 		L.RegFunction("HasProLicense", HasProLicense);
 		L.RegFunction("ExternalCall", ExternalCall);
 		L.RegFunction("RequestAdvertisingIdentifierAsync", RequestAdvertisingIdentifierAsync);
@@ -56,6 +56,7 @@ public class UnityEngine_ApplicationWrap
 		L.RegVar("lowMemory", get_lowMemory, set_lowMemory);
 		L.RegVar("logMessageReceived", get_logMessageReceived, set_logMessageReceived);
 		L.RegVar("logMessageReceivedThreaded", get_logMessageReceivedThreaded, set_logMessageReceivedThreaded);
+		L.RegVar("onBeforeRender", get_onBeforeRender, set_onBeforeRender);
 		L.RegFunction("AdvertisingIdentifierCallback", UnityEngine_Application_AdvertisingIdentifierCallback);
 		L.RegFunction("LogCallback", UnityEngine_Application_LogCallback);
 		L.RegFunction("LowMemoryCallback", UnityEngine_Application_LowMemoryCallback);
@@ -188,29 +189,14 @@ public class UnityEngine_ApplicationWrap
 	}
 
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
-	static int CaptureScreenshot(IntPtr L)
+	static int SetBuildTags(IntPtr L)
 	{
 		try
 		{
-			int count = LuaDLL.lua_gettop(L);
-
-			if (count == 1 && TypeChecker.CheckTypes(L, 1, typeof(string)))
-			{
-				string arg0 = ToLua.ToString(L, 1);
-				UnityEngine.Application.CaptureScreenshot(arg0);
-				return 0;
-			}
-			else if (count == 2 && TypeChecker.CheckTypes(L, 1, typeof(string), typeof(int)))
-			{
-				string arg0 = ToLua.ToString(L, 1);
-				int arg1 = (int)LuaDLL.lua_tonumber(L, 2);
-				UnityEngine.Application.CaptureScreenshot(arg0, arg1);
-				return 0;
-			}
-			else
-			{
-				return LuaDLL.luaL_throw(L, "invalid arguments to method: UnityEngine.Application.CaptureScreenshot");
-			}
+			ToLua.CheckArgsCount(L, 1);
+			string[] arg0 = ToLua.CheckStringArray(L, 1);
+			UnityEngine.Application.SetBuildTags(arg0);
+			return 0;
 		}
 		catch(Exception e)
 		{
@@ -820,6 +806,13 @@ public class UnityEngine_ApplicationWrap
 	}
 
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+	static int get_onBeforeRender(IntPtr L)
+	{
+		ToLua.Push(L, new EventObject("UnityEngine.Application.onBeforeRender"));
+		return 1;
+	}
+
+	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
 	static int set_runInBackground(IntPtr L)
 	{
 		try
@@ -1001,6 +994,57 @@ public class UnityEngine_ApplicationWrap
 					if (ld != null && ld.func == arg0.func)
 					{
 						UnityEngine.Application.logMessageReceivedThreaded -= ev;
+						state.DelayDispose(ld.func);
+						break;
+					}
+				}
+
+				arg0.func.Dispose();
+			}
+
+			return 0;
+		}
+		catch(Exception e)
+		{
+			return LuaDLL.toluaL_exception(L, e);
+		}
+	}
+
+	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+	static int set_onBeforeRender(IntPtr L)
+	{
+		try
+		{
+			EventObject arg0 = null;
+
+			if (LuaDLL.lua_isuserdata(L, 2) != 0)
+			{
+				arg0 = (EventObject)ToLua.ToObject(L, 2);
+			}
+			else
+			{
+				return LuaDLL.luaL_throw(L, "The event 'UnityEngine.Application.onBeforeRender' can only appear on the left hand side of += or -= when used outside of the type 'UnityEngine.Application'");
+			}
+
+			if (arg0.op == EventOp.Add)
+			{
+				UnityEngine.Events.UnityAction ev = (UnityEngine.Events.UnityAction)DelegateFactory.CreateDelegate(typeof(UnityEngine.Events.UnityAction), arg0.func);
+				UnityEngine.Application.onBeforeRender += ev;
+			}
+			else if (arg0.op == EventOp.Sub)
+			{
+				UnityEngine.Events.UnityAction ev = (UnityEngine.Events.UnityAction)LuaMisc.GetEventHandler(null, typeof(UnityEngine.Application), "onBeforeRender");
+				Delegate[] ds = ev.GetInvocationList();
+				LuaState state = LuaState.Get(L);
+
+				for (int i = 0; i < ds.Length; i++)
+				{
+					ev = (UnityEngine.Events.UnityAction)ds[i];
+					LuaDelegate ld = ev.Target as LuaDelegate;
+
+					if (ld != null && ld.func == arg0.func)
+					{
+						UnityEngine.Application.onBeforeRender -= ev;
 						state.DelayDispose(ld.func);
 						break;
 					}

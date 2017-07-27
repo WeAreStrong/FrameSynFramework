@@ -2,12 +2,12 @@
 
 public class Move
 {
-    public static Transform mTarget;
-    public static Vector3 to;
+    public Transform mTarget;
+    public Vector3 to;
 
     public const int speed = 30;
 
-    public static void OnUpdate()
+    public void OnUpdate()
     {
         Vector3 dir = to - mTarget.position;
         if (dir.magnitude > 0.01)

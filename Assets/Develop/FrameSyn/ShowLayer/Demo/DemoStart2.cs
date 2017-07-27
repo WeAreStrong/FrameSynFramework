@@ -1,23 +1,24 @@
 ﻿using UnityEngine;
 using LuaInterface;
-using FrameSyn;
 
-public class DemoStart : MonoBehaviour
+public class DemoStart2 : MonoBehaviour
 {
-    public static DemoStart instance;
+    public static DemoStart2 instance;
 
     public LuaManager luaMgr;
 
-    public Transform moveTarget;
+    public GameObject ball;
 
-	// Use this for initialization
-	void Start()
+    // Use this for initialization
+    void Start()
     {
         instance = this;
         luaMgr = gameObject.AddComponent<LuaManager>();
 
         gameObject.AddComponent<FrameSynMgr>();
-	}
+
+        ball.AddComponent<BallController>();
+    }
 
     void Destroy()
     {
