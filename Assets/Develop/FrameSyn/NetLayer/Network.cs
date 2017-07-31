@@ -13,5 +13,13 @@
             MainGame.mFrameList.AddFrame(frameId, keyFrame);
             MainGame.mFrameList.LockFrame();
         }
+
+        public static void OnFrameStep(int frameId)
+        {
+            UnityEngine.Debug.Log(frameId);
+            FillFrame frame = MainGame.mFillFramePool.Get();
+            MainGame.mFrameList.AddFrame(frameId, frame);
+            MainGame.mFrameList.LockFrame();
+        }
     }
 }

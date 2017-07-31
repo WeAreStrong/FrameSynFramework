@@ -28,7 +28,8 @@ public class FrameSynMgr : MonoBehaviour
     {
         if (mBegin == false) return;
 
-        for (int i = 1; i <= MainGame.mFrameList.speedupRate; ++i)
+        int rate = MainGame.mFrameList.speedupRate;
+        for (int i = 1; i <= rate; ++i)
         {
             MainGame.mLogicLoop.Update();
         }

@@ -10,6 +10,7 @@
         static OperationData_Click()
         {
             move = new Move();
+            move.mTarget = DemoStart.instance.moveTarget;
             MainGame.mShowLoop.updates.Add(move.OnUpdate);
         }
 

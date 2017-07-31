@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using LuaInterface;
 using FrameSyn;
+using System.Collections;
 
 public class DemoStart : MonoBehaviour
 {
@@ -11,10 +12,15 @@ public class DemoStart : MonoBehaviour
     public Transform moveTarget;
 
 	// Use this for initialization
-	void Start()
+	IEnumerator Start()
     {
         instance = this;
         luaMgr = gameObject.AddComponent<LuaManager>();
+
+        yield return null;
+
+        luaMgr.DoFile("Room");
+        luaMgr.CallFunction("Room.Ready");
 
         gameObject.AddComponent<FrameSynMgr>();
 	}

@@ -43,7 +43,6 @@
         {
             get
             {
-                return 1;
                 int count = mQueue.Count;
                 if (count >= 5)
                 {
