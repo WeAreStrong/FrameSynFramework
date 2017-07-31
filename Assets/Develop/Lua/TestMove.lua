@@ -6,7 +6,6 @@ function Init()
             local tbMsg = json.decode(msg);
             local tbContent = json.decode(tbMsg.content);
             local frameID = tbContent.fid;
-            print("Deal onChat");
             FrameSyn.Network.Network.OnOperationClick(frameID, tbContent.x, tbContent.y);
         end);
     end);

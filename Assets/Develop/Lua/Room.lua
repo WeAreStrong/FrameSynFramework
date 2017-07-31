@@ -2,9 +2,11 @@ module("Room", package.seeall)
 
 function Ready()
     Socket:OnPushEvent("onTick", function(msg)
-        local tbMsg = json.decode(msg);
-        print("onTick")
-    	FrameSyn.Network.Network.OnFrameStep(tbMsg.tick / 6);
+        SocketQueue:Push(function()
+	        local tbMsg = json.decode(msg);
+	        --print(tbMsg.cmds[1].tick);
+	    	FrameSyn.Network.Network.OnFrameStep(tbMsg.cmds[1].tick / 6);
+        end);
     end);
 
     local param = 

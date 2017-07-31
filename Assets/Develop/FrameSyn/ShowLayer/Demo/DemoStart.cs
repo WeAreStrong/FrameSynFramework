@@ -17,12 +17,12 @@ public class DemoStart : MonoBehaviour
         instance = this;
         luaMgr = gameObject.AddComponent<LuaManager>();
 
+        gameObject.AddComponent<FrameSynMgr>();
+
         yield return null;
 
         luaMgr.DoFile("Room");
         luaMgr.CallFunction("Room.Ready");
-
-        gameObject.AddComponent<FrameSynMgr>();
 	}
 
     void Destroy()

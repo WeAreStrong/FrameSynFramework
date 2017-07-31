@@ -28,13 +28,17 @@ public class FrameSynMgr : MonoBehaviour
     {
         if (mBegin == false) return;
 
-        int rate = MainGame.mFrameList.speedupRate;
-        for (int i = 1; i <= rate; ++i)
+        int rate1 = MainGame.mFrameList.speedupRate;
+        for (int i = 1; i <= rate1; ++i)
         {
             MainGame.mLogicLoop.Update();
         }
-        
-        MainGame.mShowLoop.Update();
+
+        int rate2 = rate1 * Settings.ShowUpdateCycle / Settings.KernelUpdateCycle;
+        for (int i = 1; i <= rate2; ++i)
+        {
+            MainGame.mShowLoop.Update();
+        }
 	}
 
     void LateUpdate()
