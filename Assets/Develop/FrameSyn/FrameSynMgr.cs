@@ -13,7 +13,6 @@ public class FrameSynMgr : MonoBehaviour
         MainGame.mLogicLoop = new MainLoop(Settings.KernelUpdateCycle);
         MainGame.mShowLoop = new MainLoop(Settings.ShowUpdateCycle);
 
-        MainGame.mLogicLoop.updates.Add(RealTime.OnUpdate);
         //------------ Add logic updates
         MainGame.mLogicLoop.updates.Add(MainGame.mFrameList.Update);
         //------------ Add show updates
@@ -28,13 +27,17 @@ public class FrameSynMgr : MonoBehaviour
     {
         if (mBegin == false) return;
 
+        int lastFrameID = RealTime.frameCount;
+
+        RealTime.OnUpdate();
+
         int rate1 = MainGame.mFrameList.speedupRate;
         for (int i = 1; i <= rate1; ++i)
         {
             MainGame.mLogicLoop.Update();
         }
 
-        if (RealTime.frameCount <= MainGame.mFrameList.lockFrameID)
+        if (lastFrameID <= MainGame.mFrameList.lockFrameID)
         {
             MainGame.mShowLoop.Update();
         }
