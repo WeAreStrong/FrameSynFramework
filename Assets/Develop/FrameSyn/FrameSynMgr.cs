@@ -34,8 +34,7 @@ public class FrameSynMgr : MonoBehaviour
             MainGame.mLogicLoop.Update();
         }
 
-        int rate2 = rate1 * Settings.ShowUpdateCycle / Settings.KernelUpdateCycle;
-        for (int i = 1; i <= rate2; ++i)
+        if (RealTime.frameCount <= MainGame.mFrameList.lockFrameID)
         {
             MainGame.mShowLoop.Update();
         }
