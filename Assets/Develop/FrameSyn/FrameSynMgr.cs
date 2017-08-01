@@ -3,23 +3,26 @@ using FrameSyn;
 
 public class FrameSynMgr : MonoBehaviour
 {
+    public static FrameSynMgr instance;
+
     private bool mBegin = false;
 
 	// Use this for initialization
 	void Start ()
     {
+        instance = this;
+
         MainGame.Init();
 
         MainGame.mLogicLoop = new MainLoop(Settings.KernelUpdateCycle);
         MainGame.mShowLoop = new MainLoop(Settings.ShowUpdateCycle);
 
         //------------ Add logic updates
+        MainGame.mLogicLoop.updates.Add(RealTime.OnUpdate);
         MainGame.mLogicLoop.updates.Add(MainGame.mFrameList.Update);
         //------------ Add show updates
 
         RealTime.Reset();
-
-        Begin();
 	}
 	
 	// Update is called once per frame
@@ -27,17 +30,13 @@ public class FrameSynMgr : MonoBehaviour
     {
         if (mBegin == false) return;
 
-        int lastFrameID = RealTime.frameCount;
-
-        RealTime.OnUpdate();
-
         int rate1 = MainGame.mFrameList.speedupRate;
         for (int i = 1; i <= rate1; ++i)
         {
             MainGame.mLogicLoop.Update();
         }
 
-        if (lastFrameID <= MainGame.mFrameList.lockFrameID)
+        if (RealTime.frameCount <= MainGame.mFrameList.lockFrameID)
         {
             MainGame.mShowLoop.Update();
         }
@@ -61,5 +60,10 @@ public class FrameSynMgr : MonoBehaviour
     public void End()
     {
         mBegin = false;
+    }
+
+    void OnDestroy()
+    {
+        instance = null;
     }
 }

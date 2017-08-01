@@ -2,8 +2,7 @@
 {
     public class OperationData_Click : OperationData
     {
-        public int x = 0;
-        public int y = 0;
+        public UnityEngine.Vector2 pos;
 
         private static Move move = null;
 
@@ -16,7 +15,7 @@
 
         public override void OnProcess()
         {
-            move.to = new UnityEngine.Vector3(x, y);
+            move.to = pos;
         }
     }
 }

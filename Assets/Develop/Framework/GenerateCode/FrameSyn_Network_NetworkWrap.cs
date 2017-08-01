@@ -7,8 +7,7 @@ public class FrameSyn_Network_NetworkWrap
 	public static void Register(LuaState L)
 	{
 		L.BeginClass(typeof(FrameSyn.Network.Network), typeof(System.Object));
-		L.RegFunction("OnOperationClick", OnOperationClick);
-        L.RegFunction("OnFrameStep", OnFrameStep);
+		L.RegFunction("OnFrameStep", OnFrameStep);
 		L.RegFunction("New", _CreateFrameSyn_Network_Network);
 		L.RegFunction("__tostring", ToLua.op_ToString);
 		L.EndClass();
@@ -39,15 +38,15 @@ public class FrameSyn_Network_NetworkWrap
 	}
 
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
-	static int OnOperationClick(IntPtr L)
+	static int OnFrameStep(IntPtr L)
 	{
 		try
 		{
 			ToLua.CheckArgsCount(L, 3);
 			int arg0 = (int)LuaDLL.luaL_checknumber(L, 1);
 			int arg1 = (int)LuaDLL.luaL_checknumber(L, 2);
-			int arg2 = (int)LuaDLL.luaL_checknumber(L, 3);
-			FrameSyn.Network.Network.OnOperationClick(arg0, arg1, arg2);
+			UnityEngine.Vector2[] arg2 = ToLua.CheckObjectArray<UnityEngine.Vector2>(L, 3);
+			FrameSyn.Network.Network.OnFrameStep(arg0, arg1, arg2);
 			return 0;
 		}
 		catch(Exception e)
@@ -55,21 +54,5 @@ public class FrameSyn_Network_NetworkWrap
 			return LuaDLL.toluaL_exception(L, e);
 		}
 	}
-
-    [MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
-    static int OnFrameStep(IntPtr L)
-    {
-        try
-        {
-            ToLua.CheckArgsCount(L, 1);
-            int arg0 = (int)LuaDLL.luaL_checknumber(L, 1);
-            FrameSyn.Network.Network.OnFrameStep(arg0);
-            return 0;
-        }
-        catch (Exception e)
-        {
-            return LuaDLL.toluaL_exception(L, e);
-        }
-    }
 }
 

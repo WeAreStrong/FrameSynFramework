@@ -5,7 +5,7 @@
     /// </summary>
     public class KeyFrame : Frame
     {
-        public OperationData mOpaData;
+        public OperationData[] mOpaData;
 
         public KeyFrame()
         {
@@ -19,7 +19,10 @@
 
         public override void Process()
         {
-            mOpaData.OnProcess();
+            for (int i = 0; i < mOpaData.Length; ++i)
+            {
+                mOpaData[i].OnProcess();
+            }
 
             MainGame.mKeyFramePool.Recycle(this);
         }
