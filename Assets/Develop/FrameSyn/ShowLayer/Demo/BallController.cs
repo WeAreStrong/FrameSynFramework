@@ -58,8 +58,8 @@ public class BallController : MonoBehaviour
         float v = Input.GetAxis("Vertical");
         bool jump = Input.GetButton("Jump");
         bool pressT = Input.GetKey(KeyCode.T);
-        OnSyncUpdate(h, v, jump, pressT);
-        //DemoStart2.instance.luaMgr.CallFunction("Demo2.Control", h, v, jump, pressT, RealTime.frameCount);
+        //OnSyncUpdate(h, v, jump, pressT);
+        DemoStart2.instance.luaMgr.CallFunction("Demo2.Control", h, v, jump, pressT, RealTime.frameCount);
     }
 
     public void OnSyncUpdate(float h, float v, bool jump, bool pressT)

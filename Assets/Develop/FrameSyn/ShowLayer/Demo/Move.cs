@@ -14,7 +14,7 @@ public class Move
         if (dir.magnitude > 0.01)
         {
             dir.Normalize();
-            mTarget.position += dir * Time.deltaTime * speed;
+            mTarget.position += dir * RealTime.deltaTime * speed / 1000f;
         }
         else
         {

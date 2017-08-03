@@ -19,7 +19,7 @@
         /// </summary>
         public static int deltaTime
         {
-            get { return 1000 / Settings.KernelUpdateCycle; }
+            get { return 1000 / Settings.ShowUpdateCycle; }
         }
 
         public static void OnUpdate()

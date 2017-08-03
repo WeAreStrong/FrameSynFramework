@@ -20,16 +20,16 @@ FrameType =
 function Main()
     local socket = require("Socket");
     Socket = socket.new();
-end
 
-function Update()
-    SocketQueue:Update();
-    
     Socket:AddNetWorkStateChangeEvent(function(state)
         if state == SocketState.DISCONNECTED then
             Socket:TryConnect(function() connectLogic(); end);
         end
     end)
+end
+
+function Update()
+    SocketQueue:Update();
 end
 
 function SetDemo1(_uid)
