@@ -1,20 +1,17 @@
-module("Room", package.seeall)
-
-FrameType =
-{
-	Fill = 0,
-	Key = 1,
-};
+module("Demo2", package.seeall)
 
 function Ready()
     Socket:OnPushEvent("onTick", function(msg)
         SocketQueue:Push(function()
-        	print(msg);
+        	--print(msg);
 	        local tbMsg = json.decode(msg);
 
 	        local frameID = nil;
 	        local frameType = nil;
-	        local clicks = {};
+	        local hs = {};
+	        local vs = {};
+	        local jumps = {};
+	        local pressTs = {};
 
 	        for i = 1,  #tbMsg.cmds do
 	        	local cmd = tbMsg.cmds[i];
@@ -33,19 +30,22 @@ function Ready()
 		        		frameType = FrameType.Fill;
 		        	end
 	    		elseif (cmd.type == 'shoot') then
-		            local pointX = cmd.extra.x;
-		            local pointY = cmd.extra.y;
+		            local h = cmd.extra.h;
+		            local v = cmd.extra.v;
+		            local jump = cmd.extra.jump;
+		            local pressT = cmd.extra.pressT;
 		            local clickFrameID = cmd.extra.fid;
 
 	        		if (frameType == nil) then
 	        			frameType = FrameType.Key;
 	        		end
-	        		clicks[i] = Vector2.New(pointX, pointY);
-		            --print("Deal move "..pointX.."  "..pointY);
+	        		hs[i] = h;
+	        		vs[i] = v;
+	        		jumps[i] = jump;
+	        		pressTs[i] = pressT;
 	    		end
 	        end
-	        --print(frameID, frameType, clicks);
-	        FrameSyn.Network.Network.OnFrameStep(frameID, frameType, clicks);
+	        FrameSyn.Network.Network.OnFrameStep(frameID, frameType, hs, vs, jumps, pressTs);
         end);
     end);
 
@@ -57,18 +57,18 @@ function Ready()
 	Socket:Request("battle.battleHandler.enterAndReady", param);
 end
 
-function SendMove(point, frameID)
+function Control(inh, inv, injump, inpressT, frameID)
 	local param = 
     {
     	type = "shoot",
         extra =
         {
-            x = point.x,
-            y = point.y,
+        	h = inh,
+        	v = inv,
+        	jump = injump,
+        	pressT = inpressT,
             fid = frameID,
         }
     }
-	--local str = string.format('{"x":%d,"y":%d,"fid":%d}', point.x, point.y, frameID);
-    --print(str);
 	Socket:Request("battle.battleHandler.operate", param);
 end

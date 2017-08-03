@@ -4,6 +4,7 @@ using FrameSyn;
 [RequireComponent(typeof(Rigidbody))]
 public class BallController : MonoBehaviour
 {
+    public static BallController instance;
     public bool m_UseTorque = true;
     public float m_MovePower = 5;
     public float m_JumpPower = 2; // The force added to the ball when it jumps.
@@ -15,12 +16,13 @@ public class BallController : MonoBehaviour
 
     private Transform cam; // A reference to the main camera in the scenes transform
     private Vector3 camForward; // The current forward direction of the camera
-    private bool jump; // whether the jump button is currently pressed
+    //private bool mJump; // whether the jump button is currently pressed
 
     private Rigidbody mBall;
 
     private void Awake()
     {
+        instance = this;
         // get the transform of the main camera
         if (Camera.main != null)
         {
@@ -41,7 +43,7 @@ public class BallController : MonoBehaviour
 
         MainGame.mLogicLoop.updates.Add(OnUpdate);
         MainGame.mShowLoop.updates.Add(OnShowUpdate);
-        
+
         Physics.autoSimulation = false;
 	}
 
@@ -54,8 +56,14 @@ public class BallController : MonoBehaviour
         // Get the axis and jump input.
         float h = Input.GetAxis("Horizontal");
         float v = Input.GetAxis("Vertical");
-        jump = Input.GetButton("Jump");
+        bool jump = Input.GetButton("Jump");
+        bool pressT = Input.GetKey(KeyCode.T);
+        OnSyncUpdate(h, v, jump, pressT);
+        //DemoStart2.instance.luaMgr.CallFunction("Demo2.Control", h, v, jump, pressT, RealTime.frameCount);
+    }
 
+    public void OnSyncUpdate(float h, float v, bool jump, bool pressT)
+    {
         // calculate move direction
         if (cam != null)
         {
@@ -69,24 +77,16 @@ public class BallController : MonoBehaviour
             move = (v * Vector3.forward + h * Vector3.right).normalized;
         }
 
-        Move(move, jump);
-        jump = false;
-
-        Physics.Simulate(1000 / Settings.ShowUpdateCycle / 1000f);
-    }
-
-    public void Move(Vector3 moveDirection, bool jump)
-    {
         // If using torque to rotate the ball...
         if (m_UseTorque)
         {
             // ... add torque around the axis defined by the move direction.
-            mBall.AddTorque(new Vector3(moveDirection.z, 0, -moveDirection.x) * m_MovePower);
+            mBall.AddTorque(new Vector3(move.z, 0, -move.x) * m_MovePower);
         }
         else
         {
             // Otherwise add force in the move direction.
-            mBall.AddForce(moveDirection * m_MovePower);
+            mBall.AddForce(move * m_MovePower);
         }
 
         // If on the ground and jump is pressed...
@@ -95,5 +95,18 @@ public class BallController : MonoBehaviour
             // ... add force in upwards.
             mBall.AddForce(Vector3.up * m_JumpPower, ForceMode.Impulse);
         }
+        jump = false;
+
+        if (pressT)
+        {
+            mBall.AddForce(camForward * 100);
+        }
+
+        Physics.Simulate(1f / Settings.ShowUpdateCycle);
+    }
+
+    void OnDestroy()
+    {
+        instance = null;
     }
 }

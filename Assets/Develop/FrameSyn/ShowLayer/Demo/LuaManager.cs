@@ -27,11 +27,7 @@ public class LuaManager : MonoBehaviour
 
         m_kLuaState.DoFile("Main");
         LuaFunction main = m_kLuaState.GetFunction("Main");
-#if UNITY_EDITOR
-        main.Call("58f7035db4613d0b01e93770");
-#else
-        main.Call("59393f425635a36acdb3d1b9");
-#endif
+        main.Call();
         main.Dispose();
         main = null;
 

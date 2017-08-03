@@ -7,6 +7,7 @@ public class ClientSocketWrap
 	public static void Register(LuaState L)
 	{
 		L.BeginClass(typeof(ClientSocket), typeof(System.Object));
+		L.RegFunction("getNetworkState", getNetworkState);
 		L.RegFunction("InitClient", InitClient);
 		L.RegFunction("Connect", Connect);
 		L.RegFunction("AddNetWorkStateChangeEvent", AddNetWorkStateChangeEvent);
@@ -39,6 +40,22 @@ public class ClientSocketWrap
 			{
 				return LuaDLL.luaL_throw(L, "invalid arguments to ctor method: ClientSocket.New");
 			}
+		}
+		catch(Exception e)
+		{
+			return LuaDLL.toluaL_exception(L, e);
+		}
+	}
+
+	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+	static int getNetworkState(IntPtr L)
+	{
+		try
+		{
+			ToLua.CheckArgsCount(L, 0);
+			Pomelo.DotNetClient.NetWorkState o = ClientSocket.getNetworkState();
+			ToLua.Push(L, o);
+			return 1;
 		}
 		catch(Exception e)
 		{
@@ -201,6 +218,7 @@ public class ClientSocketWrap
 	{
 		try
 		{
+			ToLua.CheckArgsCount(L, 0);
 			ClientSocket.SendDelayRequest();
 			return 0;
 		}
