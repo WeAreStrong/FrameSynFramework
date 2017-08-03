@@ -72,7 +72,7 @@ public class BallController : MonoBehaviour
         Move(move, jump);
         jump = false;
 
-        Physics.Simulate(1f / Settings.ShowUpdateCycle);
+        Physics.Simulate(1000 / Settings.ShowUpdateCycle / 1000f);
     }
 
     public void Move(Vector3 moveDirection, bool jump)

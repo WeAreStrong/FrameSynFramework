@@ -10,6 +10,7 @@
         {
             move = new Move();
             move.mTarget = DemoStart.instance.moveTarget;
+            move.to = move.mTarget.position;
             MainGame.mShowLoop.updates.Add(move.OnUpdate);
         }
 

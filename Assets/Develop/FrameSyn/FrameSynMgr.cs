@@ -18,9 +18,9 @@ public class FrameSynMgr : MonoBehaviour
         MainGame.mShowLoop = new MainLoop(Settings.ShowUpdateCycle);
 
         //------------ Add logic updates
-        MainGame.mLogicLoop.updates.Add(RealTime.OnUpdate);
         MainGame.mLogicLoop.updates.Add(MainGame.mFrameList.Update);
         //------------ Add show updates
+        MainGame.mShowLoop.updates.Add(RealTime.OnUpdate);
 
         RealTime.Reset();
 	}

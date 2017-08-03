@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
-using LuaInterface;
-using FrameSyn;
+using FrameSyn; 
 using System.Collections;
 
 public class DemoStart2 : MonoBehaviour
@@ -28,10 +27,13 @@ public class DemoStart2 : MonoBehaviour
         follow.mTarget = ball.transform;
         yield return null;
 
+        luaMgr.DoFile("Room");
+        luaMgr.CallFunction("Room.Ready");
+
         MainGame.mShowLoop.updates.Add(follow.OnUpdate);
     }
 
-    void Destroy()
+    void OnDestroy()
     {
         ClientSocket.Dispose();
         instance = null;

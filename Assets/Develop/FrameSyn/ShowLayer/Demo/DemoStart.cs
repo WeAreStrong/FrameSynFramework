@@ -1,6 +1,4 @@
 ﻿using UnityEngine;
-using LuaInterface;
-using FrameSyn;
 using System.Collections;
 
 public class DemoStart : MonoBehaviour
@@ -25,7 +23,7 @@ public class DemoStart : MonoBehaviour
         luaMgr.CallFunction("Room.Ready");
 	}
 
-    void Destroy()
+    void OnDestroy()
     {
         ClientSocket.Dispose();
         instance = null;
