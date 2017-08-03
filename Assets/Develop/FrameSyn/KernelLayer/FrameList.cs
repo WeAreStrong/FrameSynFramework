@@ -44,7 +44,7 @@
             get
             {
                 int count = mQueue.Count;
-                if (count >= 5)
+                if (count >= Settings.MAX_SPEEDUP_RATE)
                 {
                     return Settings.MAX_SPEEDUP_RATE;
                 }

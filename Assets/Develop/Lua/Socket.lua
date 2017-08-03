@@ -1,5 +1,10 @@
+
+require("Common/ktjson")
+require("Common/LuaExtension")
+
 local Socket = class('Socket')
 
+--socket状态
 SocketState = 
 {
     CLOSE = 0 ,
@@ -7,7 +12,8 @@ SocketState =
     CONNECTED = 2 ,
     DISCONNECTED = 3 ,
     TIMEOUT = 4 ,
-    ERROR = 5
+    ERROR = 5 ,
+    KICKED = 6
 }
 
 function Socket:ctor()
@@ -27,21 +33,41 @@ function Socket:Connect(user,func)
     return ClientSocket.Connect(user,self:GetKeys(user),f)
 end
 
-function Socket:Request(route,msg)
+function Socket:Notify(route,msg)
     local m = json.encode(msg)
-    return ClientSocket.Request(route,m)
+    return ClientSocket.Notify(route,m)
+end
+
+function Socket:Request(route,msg)
+    local function f(msg)
+        -- SocketQueue:Push(function() 
+        --     CommandManager:SendCommand(route,json.decode(msg))
+        -- end)
+    end
+    local m = json.encode(msg)
+    return ClientSocket.Request(route,m,f)
+end
+
+-- 直接带回调的请求，尽量不要用
+function Socket:Request1(route,msg,func)
+    local m = json.encode(msg)
+    return ClientSocket.Request(route,m,func)
 end
 
 function Socket:OnPushEvent(route,func)
     return ClientSocket.On(route,func)
 end
 
-function Socket:TryConnect(func)
+function Socket:TryReconnect(func)
     return ClientSocket.TryReconnect(func)
 end
 
 function Socket:AddNetWorkStateChangeEvent(func)
     return ClientSocket.AddNetWorkStateChangeEvent(func)
+end
+
+function Socket:SendDelayRequest()
+    return ClientSocket.SendDelayRequest()
 end
 
 function Socket:GetKeys(table)

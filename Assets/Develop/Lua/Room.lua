@@ -44,7 +44,7 @@ function Ready()
 		            --print("Deal move "..pointX.."  "..pointY);
 	    		end
 	        end
-	        print(frameID, frameType, clicks);
+	        --print(frameID, frameType, clicks);
 	        FrameSyn.Network.Network.OnFrameStep(frameID, frameType, clicks);
         end);
     end);

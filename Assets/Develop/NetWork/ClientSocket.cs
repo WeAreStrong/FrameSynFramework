@@ -2,6 +2,7 @@
 using LuaInterface;
 using SimpleJson;
 using System;
+using System.Text.RegularExpressions;
 using PDAction = Pomelo.DotNetClient.Action;
 
 public static class MyExtensions
@@ -29,17 +30,20 @@ public class ClientSocket {
 		pc = new PomeloClient();
 	}
 
+    public static NetWorkState getNetworkState() { return pc.netWorkState; }
+
 	// Use this for initialization
-	public static void InitClient(string host, int port, LuaFunction func) 
+	public static void InitClient(string host, int port ,LuaFunction func) 
 	{
+        UnityEngine.Debug.Log(string.Format("C#初始化服务器:{0}:{1}", host, port));
 		PDAction action = delegate()
 		{
-			if (func != null)
+			if(func != null)
 			{
 				func.Call();
 			}
 		};
-		pc.initClient(host, port, action);
+		pc.initClient(host,port,action);
 	}
 	
 	// connect server with user 
@@ -52,7 +56,7 @@ public class ClientSocket {
 				func.Call(jo.ToString());
 			}
 		};
-		if (user != null)
+		if(user	!=null)
 		{
 			LuaTable lt = (LuaTable)user ;
 			return pc.connect(lt.ToJsonObject(GetMsgKey(keys)), action);
@@ -69,16 +73,30 @@ public class ClientSocket {
 			{
 				func.Call((int)networkState);
 			}
+
+            UnityEngine.Debug.Log("网络状态切换:" + networkState);
 		};
-		pc.NetWorkStateChangedEvent += action;
+		pc.NetWorkStateChangedEvent += action ;
 	}
 
-	public static void Request(string route, string msg)
+	//request for something
+	// public static void Request(string route, LuaTable msg, string keys)
+	// {	
+	// 	JsonObject jo = msg.ToJsonObject(GetMsgKey(keys));
+	// 	pc.notify(route,jo);
+	// }
+	public static void Notify(string route, string msg)
 	{	
-		pc.notify(route,msg);
+        try
+        {
+		    pc.notify(route,msg);
+        }catch(Exception e)
+        {
+            UnityEngine.Debug.LogException(e);
+        }
 	}
 
-	public static void On(string route, LuaFunction func)
+	public static void Request(string route, string msg , LuaFunction func)
 	{
 		Action<string> action = delegate(string s)
 		{
@@ -87,8 +105,26 @@ public class ClientSocket {
 				func.Call(s);
 			}
 		};
-		pc.on(route, action);
+		pc.request(route,msg,action);
 	}
+
+	public static void On(string route ,LuaFunction func)
+	{
+		Action<string> action = delegate(string s)
+		{
+			if (func != null)
+			{
+				func.Call(s);
+			}
+		};
+		pc.on(route,action);
+	}
+
+	public static void CSharpOn(string route ,Action<string> func)
+	{
+		pc.on(route,func);
+	}
+
 
 	public static void TryReconnect(LuaFunction func)
 	{
@@ -102,10 +138,21 @@ public class ClientSocket {
 		pc.tryReconnect(action);
 	}
 
+	public static void SendDelayRequest()
+	{
+		pc.sendDelayRequest();
+	}
+
 	private static string[] GetMsgKey(string msgKey)
 	{	
 		char[] delimiterChars = {'|'};
 		string[] keys = msgKey.Split(delimiterChars);
 		return keys ;
 	}
+
+    public static void Dispose()
+    {
+        pc.Dispose();
+    }
+
 }

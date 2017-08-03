@@ -3,6 +3,7 @@ require "Common/LuaExtension"
 SocketQueue = require('SocketQueue')
 
 local mTcpPrefix = 'fifa-dev.mbgadev.cn';
+--local mTcpPrefix = '172.21.175.94';
 local mTcpPort = 3050;
 
 ROOM_ID = 99;

@@ -33,6 +33,7 @@ public class DemoStart2 : MonoBehaviour
 
     void Destroy()
     {
+        ClientSocket.Dispose();
         instance = null;
     }
 }

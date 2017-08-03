@@ -10,9 +10,13 @@ public class ClientSocketWrap
 		L.RegFunction("InitClient", InitClient);
 		L.RegFunction("Connect", Connect);
 		L.RegFunction("AddNetWorkStateChangeEvent", AddNetWorkStateChangeEvent);
+		L.RegFunction("Notify", Notify);
 		L.RegFunction("Request", Request);
 		L.RegFunction("On", On);
+		L.RegFunction("CSharpOn", CSharpOn);
 		L.RegFunction("TryReconnect", TryReconnect);
+		L.RegFunction("SendDelayRequest", SendDelayRequest);
+		L.RegFunction("Dispose", Dispose);
 		L.RegFunction("New", _CreateClientSocket);
 		L.RegFunction("__tostring", ToLua.op_ToString);
 		L.EndClass();
@@ -96,14 +100,32 @@ public class ClientSocketWrap
 	}
 
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
-	static int Request(IntPtr L)
+	static int Notify(IntPtr L)
 	{
 		try
 		{
 			ToLua.CheckArgsCount(L, 2);
 			string arg0 = ToLua.CheckString(L, 1);
 			string arg1 = ToLua.CheckString(L, 2);
-			ClientSocket.Request(arg0, arg1);
+			ClientSocket.Notify(arg0, arg1);
+			return 0;
+		}
+		catch(Exception e)
+		{
+			return LuaDLL.toluaL_exception(L, e);
+		}
+	}
+
+	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+	static int Request(IntPtr L)
+	{
+		try
+		{
+			ToLua.CheckArgsCount(L, 3);
+			string arg0 = ToLua.CheckString(L, 1);
+			string arg1 = ToLua.CheckString(L, 2);
+			LuaFunction arg2 = ToLua.CheckLuaFunction(L, 3);
+			ClientSocket.Request(arg0, arg1, arg2);
 			return 0;
 		}
 		catch(Exception e)
@@ -130,6 +152,35 @@ public class ClientSocketWrap
 	}
 
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+	static int CSharpOn(IntPtr L)
+	{
+		try
+		{
+			ToLua.CheckArgsCount(L, 2);
+			string arg0 = ToLua.CheckString(L, 1);
+			System.Action<string> arg1 = null;
+			LuaTypes funcType2 = LuaDLL.lua_type(L, 2);
+
+			if (funcType2 != LuaTypes.LUA_TFUNCTION)
+			{
+				 arg1 = (System.Action<string>)ToLua.CheckObject(L, 2, typeof(System.Action<string>));
+			}
+			else
+			{
+				LuaFunction func = ToLua.ToLuaFunction(L, 2);
+				arg1 = DelegateFactory.CreateDelegate(typeof(System.Action<string>), func) as System.Action<string>;
+			}
+
+			ClientSocket.CSharpOn(arg0, arg1);
+			return 0;
+		}
+		catch(Exception e)
+		{
+			return LuaDLL.toluaL_exception(L, e);
+		}
+	}
+
+	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
 	static int TryReconnect(IntPtr L)
 	{
 		try
@@ -137,6 +188,35 @@ public class ClientSocketWrap
 			ToLua.CheckArgsCount(L, 1);
 			LuaFunction arg0 = ToLua.CheckLuaFunction(L, 1);
 			ClientSocket.TryReconnect(arg0);
+			return 0;
+		}
+		catch(Exception e)
+		{
+			return LuaDLL.toluaL_exception(L, e);
+		}
+	}
+
+	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+	static int SendDelayRequest(IntPtr L)
+	{
+		try
+		{
+			ClientSocket.SendDelayRequest();
+			return 0;
+		}
+		catch(Exception e)
+		{
+			return LuaDLL.toluaL_exception(L, e);
+		}
+	}
+
+	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+	static int Dispose(IntPtr L)
+	{
+		try
+		{
+			ToLua.CheckArgsCount(L, 0);
+			ClientSocket.Dispose();
 			return 0;
 		}
 		catch(Exception e)
