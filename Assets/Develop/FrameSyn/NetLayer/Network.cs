@@ -47,13 +47,13 @@
             else if (fType == FrameType.Key)
             {
                 KeyFrame keyFrame = MainGame.mKeyFramePool.Get();
-                keyFrame.mOpaData = new ControllerData[hs.Length];
-                for (int i = 0; i < hs.Length; ++i)
+                keyFrame.mOpaData = new ControllerData[pressTs.Length];
+                for (int i = 0; i < keyFrame.mOpaData.Length; ++i)
                 {
                     ControllerData opaData = ControllerData.mPool.Get();
-                    opaData.h = hs[i];
-                    opaData.v = vs[i];
-                    opaData.jump = jumps[i];
+                    //opaData.h = hs[i];
+                    //opaData.v = vs[i];
+                    //opaData.jump = jumps[i];
                     opaData.pressT = pressTs[i];
                     keyFrame.mOpaData[i] = opaData;
                 }

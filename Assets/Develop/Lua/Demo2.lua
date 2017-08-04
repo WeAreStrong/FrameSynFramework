@@ -3,14 +3,14 @@ module("Demo2", package.seeall)
 function Ready()
     Socket:OnPushEvent("onTick", function(msg)
         SocketQueue:Push(function()
-        	--print(msg);
+        	print(msg);
 	        local tbMsg = json.decode(msg);
 
 	        local frameID = nil;
 	        local frameType = nil;
-	        local hs = {};
-	        local vs = {};
-	        local jumps = {};
+	        --local hs = {};
+	        --local vs = {};
+	        --local jumps = {};
 	        local pressTs = {};
 
 	        for i = 1,  #tbMsg.cmds do
@@ -39,13 +39,14 @@ function Ready()
 	        		if (frameType == nil) then
 	        			frameType = FrameType.Key;
 	        		end
-	        		hs[i] = h;
-	        		vs[i] = v;
-	        		jumps[i] = jump;
+	        		--hs[i] = h;
+	        		--vs[i] = v;
+	        		--jumps[i] = jump;
 	        		pressTs[i] = pressT;
 	    		end
 	        end
-	        FrameSyn.Network.Network.OnFrameStep(frameID, frameType, hs, vs, jumps, pressTs);
+	        --FrameSyn.Network.Network.OnFrameStep(frameID, frameType, hs, vs, jumps, pressTs);
+	        FrameSyn.Network.Network.OnFrameStep(frameID, frameType, nil, nil, nil, pressTs);
         end);
     end);
 
@@ -57,7 +58,7 @@ function Ready()
 	Socket:Request("battle.battleHandler.enterAndReady", param);
 end
 
-function Control(inh, inv, injump, inpressT, frameID)
+--[[function Control(inh, inv, injump, inpressT, frameID)
 	local param = 
     {
     	type = "shoot",
@@ -66,6 +67,19 @@ function Control(inh, inv, injump, inpressT, frameID)
         	h = inh,
         	v = inv,
         	jump = injump,
+        	pressT = inpressT,
+            fid = frameID,
+        }
+    }
+	Socket:Request("battle.battleHandler.operate", param);
+end]]
+
+function Control(inpressT, frameID)
+	local param = 
+    {
+    	type = "shoot",
+        extra =
+        {
         	pressT = inpressT,
             fid = frameID,
         }

@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using FrameSyn;
 using System.Collections;
 
 public class DemoStart : MonoBehaviour
@@ -20,7 +21,7 @@ public class DemoStart : MonoBehaviour
 
         yield return null;
 
-        luaMgr.CallFunction("SetDemo1", "58f7035db4613d0b01e93770");    //59393f425635a36acdb3d1b9
+        luaMgr.CallFunction("SetDemo1", Settings.USER2);
     }
 
     void OnDestroy()

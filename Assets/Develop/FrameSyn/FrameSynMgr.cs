@@ -3,15 +3,11 @@ using FrameSyn;
 
 public class FrameSynMgr : MonoBehaviour
 {
-    public static FrameSynMgr instance;
-
     private bool mBegin = false;
 
 	// Use this for initialization
 	void Start ()
     {
-        instance = this;
-
         MainGame.Init();
 
         MainGame.mLogicLoop = new MainLoop(Settings.KernelUpdateCycle);
@@ -60,10 +56,5 @@ public class FrameSynMgr : MonoBehaviour
     public void End()
     {
         mBegin = false;
-    }
-
-    void OnDestroy()
-    {
-        instance = null;
     }
 }

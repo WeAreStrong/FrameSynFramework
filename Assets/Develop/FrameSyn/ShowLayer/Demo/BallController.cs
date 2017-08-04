@@ -4,7 +4,6 @@ using FrameSyn;
 [RequireComponent(typeof(Rigidbody))]
 public class BallController : MonoBehaviour
 {
-    public static BallController instance;
     public bool m_UseTorque = true;
     public float m_MovePower = 5;
     public float m_JumpPower = 2; // The force added to the ball when it jumps.
@@ -22,7 +21,6 @@ public class BallController : MonoBehaviour
 
     private void Awake()
     {
-        instance = this;
         // get the transform of the main camera
         if (Camera.main != null)
         {
@@ -59,7 +57,14 @@ public class BallController : MonoBehaviour
         bool jump = Input.GetButton("Jump");
         bool pressT = Input.GetKey(KeyCode.T);
         //OnSyncUpdate(h, v, jump, pressT);
-        DemoStart2.instance.luaMgr.CallFunction("Demo2.Control", h, v, jump, pressT, RealTime.frameCount);
+        /*if (h * v != 0 || jump || pressT)
+        {
+            DemoStart2.instance.luaMgr.CallFunction("Demo2.Control", h, v, jump, pressT, RealTime.frameCount);
+        }*/
+        if (pressT)
+        {
+            DemoStart2.instance.luaMgr.CallFunction("Demo2.Control", pressT, RealTime.frameCount);
+        }
     }
 
     public void OnSyncUpdate(float h, float v, bool jump, bool pressT)
@@ -103,10 +108,5 @@ public class BallController : MonoBehaviour
         }
 
         Physics.Simulate(1f / Settings.ShowUpdateCycle);
-    }
-
-    void OnDestroy()
-    {
-        instance = null;
     }
 }

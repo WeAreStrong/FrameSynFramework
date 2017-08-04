@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace FrameSyn
+﻿namespace FrameSyn
 {
     public class ControllerData : OperationData , IRecycleable
     {
@@ -18,7 +16,8 @@ namespace FrameSyn
 
         void OnUpdate()
         {
-            BallController.instance.OnSyncUpdate(h, v, jump, pressT);
+            //DemoStart2.instance.ballController.OnSyncUpdate(h, v, jump, pressT);
+            DemoStart2.instance.ballController.OnSyncUpdate(0f, 0f, false, pressT);
             MainGame.mShowLoop.updates.PrepareForRemove(OnUpdate);
 
             mPool.Recycle(this);

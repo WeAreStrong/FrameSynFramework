@@ -10,6 +10,8 @@ public class DemoStart2 : MonoBehaviour
 
     public FrameSynMgr frameSynMgr;
 
+    public BallController ballController;
+
     public GameObject followGO;
 
     public GameObject cam;
@@ -22,7 +24,7 @@ public class DemoStart2 : MonoBehaviour
         instance = this;
         luaMgr = gameObject.AddComponent<LuaManager>();
         frameSynMgr = gameObject.AddComponent<FrameSynMgr>();
-        ball.AddComponent<BallController>();
+        ballController = ball.AddComponent<BallController>();
 
         Follow follow = followGO.AddComponent<Follow>();
         follow.mTarget = ball.transform;
@@ -30,7 +32,7 @@ public class DemoStart2 : MonoBehaviour
 
         MainGame.mShowLoop.updates.Add(follow.OnUpdate);
 
-        luaMgr.CallFunction("SetDemo2", "58f7035db4613d0b01e93770");    //59393f425635a36acdb3d1b9
+        luaMgr.CallFunction("SetDemo2", Settings.USER1);
     }
 
     void OnDestroy()
