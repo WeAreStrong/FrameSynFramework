@@ -2,7 +2,7 @@
 {
     public class Network
     {
-        public static void OnFrameStep(int frameId, int type, UnityEngine.Vector2[] clicks)
+        public static void OnFrameStep(int frameId, int type, int[] fids, UnityEngine.Vector2[] clicks)
         {
             if (frameId == 0)
             {
@@ -18,10 +18,10 @@
             else if (fType == FrameType.Key)
             {
                 KeyFrame keyFrame = MainGame.mKeyFramePool.Get();
-                keyFrame.mOpaData = new OperationData_Click[clicks.Length];
                 for (int i = 0; i < clicks.Length; ++i)
                 {
                     OperationData_Click opaData = new OperationData_Click();
+                    opaData.frameID = fids[i];
                     opaData.pos = clicks[i];
                     keyFrame.mOpaData[i] = opaData;
                 }
@@ -31,7 +31,7 @@
             MainGame.mFrameList.LockFrame();
         }
 
-        public static void OnFrameStep(int frameId, int type, float[] hs, float[] vs, bool[] jumps, bool[] pressTs)
+        public static void OnFrameStep(int frameId, int type, int[] fids, float[] hs, float[] vs, bool[] jumps, bool[] pressTs)
         {
             if (frameId == 0)
             {
@@ -47,10 +47,10 @@
             else if (fType == FrameType.Key)
             {
                 KeyFrame keyFrame = MainGame.mKeyFramePool.Get();
-                keyFrame.mOpaData = new ControllerData[pressTs.Length];
-                for (int i = 0; i < keyFrame.mOpaData.Length; ++i)
+                for (int i = 0; i < fids.Length; ++i)
                 {
                     ControllerData opaData = ControllerData.mPool.Get();
+                    opaData.frameID = fids[i];
                     //opaData.h = hs[i];
                     //opaData.v = vs[i];
                     //opaData.jump = jumps[i];

@@ -1,11 +1,13 @@
 ﻿namespace FrameSyn
 {
+    using System.Collections.Generic;
+
     /// <summary>
     /// 关键帧
     /// </summary>
     public class KeyFrame : Frame
     {
-        public OperationData[] mOpaData;
+        public List<OperationData> mOpaData = new List<OperationData>();
 
         public KeyFrame()
         {
@@ -19,12 +21,23 @@
 
         public override void Process()
         {
-            for (int i = 0; i < mOpaData.Length; ++i)
+            for (int i = 0; i < mOpaData.Count;)
             {
-                mOpaData[i].OnProcess();
+                if (RealTime.frameCount == mOpaData[i].frameID)
+                {
+                    mOpaData[i].OnProcess();
+                    mOpaData.RemoveAt(i);
+                }
+                else
+                {
+                    ++i;
+                }
             }
 
-            MainGame.mKeyFramePool.Recycle(this);
+            if (mOpaData.Count == 0)
+            {
+                MainGame.mKeyFramePool.Recycle(this);
+            }
         }
 
         public override void OnRecycle()

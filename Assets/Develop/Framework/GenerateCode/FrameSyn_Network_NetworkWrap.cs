@@ -44,23 +44,25 @@ public class FrameSyn_Network_NetworkWrap
 		{
 			int count = LuaDLL.lua_gettop(L);
 
-			if (count == 3 && TypeChecker.CheckTypes(L, 1, typeof(int), typeof(int), typeof(UnityEngine.Vector2[])))
+			if (count == 4 && TypeChecker.CheckTypes(L, 1, typeof(int), typeof(int), typeof(int[]), typeof(UnityEngine.Vector2[])))
 			{
 				int arg0 = (int)LuaDLL.lua_tonumber(L, 1);
 				int arg1 = (int)LuaDLL.lua_tonumber(L, 2);
-				UnityEngine.Vector2[] arg2 = ToLua.CheckObjectArray<UnityEngine.Vector2>(L, 3);
-				FrameSyn.Network.Network.OnFrameStep(arg0, arg1, arg2);
+                int[] arg2 = ToLua.CheckNumberArray<int>(L, 3);
+                UnityEngine.Vector2[] arg3 = ToLua.CheckObjectArray<UnityEngine.Vector2>(L, 4);
+				FrameSyn.Network.Network.OnFrameStep(arg0, arg1, arg2, arg3);
 				return 0;
 			}
-			else if (count == 6 && TypeChecker.CheckTypes(L, 1, typeof(int), typeof(int), typeof(float[]), typeof(float[]), typeof(bool[]), typeof(bool[])))
+			else if (count == 7 && TypeChecker.CheckTypes(L, 1, typeof(int), typeof(int), typeof(int[]), typeof(float[]), typeof(float[]), typeof(bool[]), typeof(bool[])))
 			{
 				int arg0 = (int)LuaDLL.lua_tonumber(L, 1);
 				int arg1 = (int)LuaDLL.lua_tonumber(L, 2);
-				float[] arg2 = ToLua.CheckNumberArray<float>(L, 3);
-				float[] arg3 = ToLua.CheckNumberArray<float>(L, 4);
-				bool[] arg4 = ToLua.CheckBoolArray(L, 5);
-                bool[] arg5 = ToLua.CheckBoolArray(L, 6);
-                FrameSyn.Network.Network.OnFrameStep(arg0, arg1, arg2, arg3, arg4, arg5);
+                int[] arg2 = ToLua.CheckNumberArray<int>(L, 3);
+                float[] arg3 = ToLua.CheckNumberArray<float>(L, 4);
+				float[] arg4 = ToLua.CheckNumberArray<float>(L, 5);
+				bool[] arg5 = ToLua.CheckBoolArray(L, 6);
+                bool[] arg6 = ToLua.CheckBoolArray(L, 7);
+                FrameSyn.Network.Network.OnFrameStep(arg0, arg1, arg2, arg3, arg4, arg5, arg6);
 				return 0;
 			}
 			else

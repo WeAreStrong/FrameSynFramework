@@ -8,6 +8,7 @@ function Ready()
 
 	        local frameID = nil;
 	        local frameType = nil;
+	        local fids = {};
 	        local clicks = {};
 
 	        for i = 1,  #tbMsg.cmds do
@@ -34,12 +35,13 @@ function Ready()
 	        		if (frameType == nil) then
 	        			frameType = FrameType.Key;
 	        		end
+	        		fids[i] = clickFrameID;
 	        		clicks[i] = Vector2.New(pointX, pointY);
 		            --print("Deal move "..pointX.."  "..pointY);
 	    		end
 	        end
 	        --print(frameID, frameType, clicks);
-	        FrameSyn.Network.Network.OnFrameStep(frameID, frameType, clicks);
+	        FrameSyn.Network.Network.OnFrameStep(frameID, frameType, fids, clicks);
         end);
     end);
 

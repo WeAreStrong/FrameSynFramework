@@ -12,6 +12,7 @@ function Ready()
 	        --local vs = {};
 	        --local jumps = {};
 	        local pressTs = {};
+	        local fids = {};
 
 	        for i = 1,  #tbMsg.cmds do
 	        	local cmd = tbMsg.cmds[i];
@@ -43,10 +44,11 @@ function Ready()
 	        		--vs[i] = v;
 	        		--jumps[i] = jump;
 	        		pressTs[i] = pressT;
+			        fids[i] = clickFrameID;
 	    		end
 	        end
 	        --FrameSyn.Network.Network.OnFrameStep(frameID, frameType, hs, vs, jumps, pressTs);
-	        FrameSyn.Network.Network.OnFrameStep(frameID, frameType, nil, nil, nil, pressTs);
+	        FrameSyn.Network.Network.OnFrameStep(frameID, frameType, fids, nil, nil, nil, pressTs);
         end);
     end);
 

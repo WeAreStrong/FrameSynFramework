@@ -12,6 +12,7 @@
         }
 
         private int mFrameIdx = 0;
+        private Frame mCurrentFrame = null;
 
         private Queue<Frame> mQueue = new Queue<Frame>();
 
@@ -30,13 +31,24 @@
             mLockFrameID = mFrameIdx * Settings.ServerFrameStep;
         }
 
-        public void Update()
+        public void LogicUpdate()
         {
             if (mQueue.Count > 0)
             {
-                Frame frame = mQueue.Dequeue();
-                frame.Process();
+                mCurrentFrame = mQueue.Dequeue();
             }
+            else
+            {
+                mCurrentFrame = null;
+#if UNITY_EDITOR
+                UnityEngine.Debug.Assert(false);
+#endif
+            }
+        }
+
+        public void ShowUpdate()
+        {
+            mCurrentFrame.Process();
         }
 
         public int speedupRate

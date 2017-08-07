@@ -16,10 +16,8 @@
 
         void OnUpdate()
         {
-            //DemoStart2.instance.ballController.OnSyncUpdate(h, v, jump, pressT);
-            DemoStart2.instance.ballController.OnSyncUpdate(0f, 0f, false, pressT);
+            DemoStart2.instance.ballController.OnSyncUpdate(h, v, jump, pressT);
             MainGame.mShowLoop.updates.PrepareForRemove(OnUpdate);
-
             mPool.Recycle(this);
         }
 
@@ -28,6 +26,7 @@
             h = 0f;
             v = 0f;
             jump = false;
+            pressT = false;
         }
 
         public void OnReuse()
