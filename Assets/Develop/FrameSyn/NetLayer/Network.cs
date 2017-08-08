@@ -23,7 +23,7 @@
                     OperationData_Click opaData = new OperationData_Click();
                     opaData.frameID = fids[i];
                     opaData.pos = clicks[i];
-                    keyFrame.mOpaData[i] = opaData;
+                    keyFrame.mOpaData.Add(opaData);
                 }
 
                 MainGame.mFrameList.AddFrame(frameId, keyFrame);
@@ -55,7 +55,7 @@
                     //opaData.v = vs[i];
                     //opaData.jump = jumps[i];
                     opaData.pressT = pressTs[i];
-                    keyFrame.mOpaData[i] = opaData;
+                    keyFrame.mOpaData.Add(opaData);
                 }
 
                 MainGame.mFrameList.AddFrame(frameId, keyFrame);

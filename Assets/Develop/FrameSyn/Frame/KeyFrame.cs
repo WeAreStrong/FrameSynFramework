@@ -23,7 +23,7 @@
         {
             for (int i = 0; i < mOpaData.Count;)
             {
-                if (RealTime.frameCount == mOpaData[i].frameID)
+                if (RealTime.frameCount == mOpaData[i].frameID + Settings.PeriodicShowUpdateTimes())
                 {
                     mOpaData[i].OnProcess();
                     mOpaData.RemoveAt(i);
@@ -43,7 +43,7 @@
         public override void OnRecycle()
         {
             base.OnRecycle();
-            mOpaData = null;
+            mOpaData.Clear();
         }
     }
 }

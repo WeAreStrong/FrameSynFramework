@@ -28,12 +28,15 @@ public class FrameSynMgr : MonoBehaviour
         if (mBegin == false) return;
 
         int rate1 = MainGame.mFrameList.speedupRate;
+        //Debug.LogWarning("Logic " + rate1);
         for (int i = 1; i <= rate1; ++i)
         {
             MainGame.mLogicLoop.Update();
         }
 
-        if (RealTime.frameCount <= MainGame.mFrameList.lockFrameID * Settings.ShowUpdateCycle / Settings.KernelUpdateCycle)
+        int showUpdateTimes = MainGame.mFrameList.lockFrameID * Settings.PeriodicShowUpdateTimes() - RealTime.frameCount;
+        //Debug.LogWarning("Show Update " + showUpdateTimes);
+        while (--showUpdateTimes >= 0)
         {
             MainGame.mShowLoop.Update();
         }

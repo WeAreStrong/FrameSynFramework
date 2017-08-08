@@ -21,7 +21,17 @@
             if (frame != null)
             {
                 frame.frameID = frameID + mFrameIdx * Settings.ServerFrameStep;
-                mQueue.Enqueue(frame);
+
+                if (frame.frameID == 0)
+                {
+                    mCurrentFrame = frame;
+                }
+                else
+                {
+                    mQueue.Enqueue(frame);
+                }
+
+                //UnityEngine.Debug.LogError("Enqueue Frame at " + RealTime.frameCount + ".\nFrameCount = " + mQueue.Count);
             }
         }
 
@@ -36,13 +46,11 @@
             if (mQueue.Count > 0)
             {
                 mCurrentFrame = mQueue.Dequeue();
+                //UnityEngine.Debug.LogError("Dequeue Frame at" + RealTime.frameCount + ".\nFrameCount = " + mQueue.Count);
             }
             else
             {
                 mCurrentFrame = null;
-#if UNITY_EDITOR
-                UnityEngine.Debug.Assert(false);
-#endif
             }
         }
 
