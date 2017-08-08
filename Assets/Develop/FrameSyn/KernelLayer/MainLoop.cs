@@ -11,12 +11,6 @@
 
         private int mPassedTime = 0;
 
-        private int mFrameNr = 0;
-        public int frameNr
-        {
-            get { return mFrameNr; }
-        }
-
         private WaitForCalls mUpdates;
         private WaitForCalls mLateUpdates;
 
@@ -36,18 +30,18 @@
             mLateUpdates = new WaitForCalls();
 
             mUpdateCycle = updateCycle;
+
+            mPassedTime = frequency;
         }
 
         public void Update()
         {
-            mPassedTime += (int)(UnityEngine.Time.deltaTime * 1000);
+            mPassedTime -= (int)(UnityEngine.Time.deltaTime * 1000);
 
-            while (mPassedTime >= frequency)
+            while (mPassedTime <= 0)
             {
-                mPassedTime -= frequency;
+                mPassedTime += frequency;
                 mUpdates.Run();
-
-                ++mFrameNr;
             }
         }
 
@@ -60,7 +54,6 @@
         {
             mUpdateCycle = 1;
             mPassedTime = 0;
-            mFrameNr = 0;
             mUpdates.Clear();
             mLateUpdates.Clear();
         }

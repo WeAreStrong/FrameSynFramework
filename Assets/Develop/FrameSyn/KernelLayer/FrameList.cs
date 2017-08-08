@@ -21,15 +21,7 @@
             if (frame != null)
             {
                 frame.frameID = frameID + mFrameIdx * Settings.ServerFrameStep;
-
-                if (frame.frameID == 0)
-                {
-                    mCurrentFrame = frame;
-                }
-                else
-                {
-                    mQueue.Enqueue(frame);
-                }
+                mQueue.Enqueue(frame);
 
                 //UnityEngine.Debug.LogError("Enqueue Frame at " + RealTime.frameCount + ".\nFrameCount = " + mQueue.Count);
             }
