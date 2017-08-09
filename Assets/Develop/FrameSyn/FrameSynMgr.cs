@@ -25,18 +25,17 @@ public class FrameSynMgr : MonoBehaviour
 	// Update is called once per frame
 	void Update()
     {
+        MainGame.mLuaMgr.OnUpdate();
         if (mBegin == false) return;
 
         int rate1 = MainGame.mFrameList.speedupRate;
-        //Debug.LogWarning("Logic " + rate1);
         for (int i = 1; i <= rate1; ++i)
         {
             MainGame.mLogicLoop.Update();
         }
 
-        int showUpdateTimes = MainGame.mFrameList.lockFrameID * Settings.PeriodicShowUpdateTimes() - RealTime.frameCount;
-        //Debug.LogWarning("Show Update " + showUpdateTimes);
-        while (--showUpdateTimes >= 0)
+        int rate2 = rate1;
+        for (int i = 1; i <= rate1; ++i)
         {
             MainGame.mShowLoop.Update();
         }

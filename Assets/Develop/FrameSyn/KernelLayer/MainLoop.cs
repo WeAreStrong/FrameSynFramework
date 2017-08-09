@@ -4,12 +4,16 @@
     {
         private int mUpdateCycle = 1;
 
-        protected int frequency
+        public int frequency
         {
             get { return 1000 / mUpdateCycle; }
         }
 
         private int mPassedTime = 0;
+        public int passedTime
+        {
+            get { return mPassedTime; }
+        }
 
         private WaitForCalls mUpdates;
         private WaitForCalls mLateUpdates;
@@ -30,8 +34,6 @@
             mLateUpdates = new WaitForCalls();
 
             mUpdateCycle = updateCycle;
-
-            mPassedTime = frequency;
         }
 
         public void Update()

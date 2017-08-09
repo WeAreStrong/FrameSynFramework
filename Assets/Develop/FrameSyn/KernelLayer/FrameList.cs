@@ -22,8 +22,6 @@
             {
                 frame.frameID = frameID + mFrameIdx * Settings.ServerFrameStep;
                 mQueue.Enqueue(frame);
-
-                //UnityEngine.Debug.LogError("Enqueue Frame at " + RealTime.frameCount + ".\nFrameCount = " + mQueue.Count);
             }
         }
 
@@ -38,7 +36,7 @@
             if (mQueue.Count > 0)
             {
                 mCurrentFrame = mQueue.Dequeue();
-                //UnityEngine.Debug.LogError("Dequeue Frame at" + RealTime.frameCount + ".\nFrameCount = " + mQueue.Count);
+                //UnityEngine.Debug.LogWarning("LogicUpdate " + RealTime.frameCount);
             }
             else
             {
@@ -49,6 +47,7 @@
         public void ShowUpdate()
         {
             mCurrentFrame.Process();
+            //UnityEngine.Debug.LogError("ShowUpdate " + RealTime.frameCount);
         }
 
         public int speedupRate

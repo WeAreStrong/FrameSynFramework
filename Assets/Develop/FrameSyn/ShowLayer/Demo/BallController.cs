@@ -63,7 +63,7 @@ public class BallController : MonoBehaviour
         }*/
         if (pressT)
         {
-            DemoStart2.instance.luaMgr.CallFunction("Demo2.Control", pressT, RealTime.frameCount);
+            MainGame.mLuaMgr.CallFunction("Demo2.Control", pressT, RealTime.frameCount);
         }
     }
 

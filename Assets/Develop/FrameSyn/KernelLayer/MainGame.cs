@@ -7,6 +7,8 @@
         public static FrameList mFrameList;
         public static MainLoop mLogicLoop;
         public static MainLoop mShowLoop;
+        public static LuaManager mLuaMgr;
+        public static FrameSynMgr mFrameSynMgr;
 
         public static void Init()
         {
@@ -37,6 +39,8 @@
             mFrameList.Clear();
             mLogicLoop.Clear();
             mShowLoop.Clear();
+            mLuaMgr = null;
+            mFrameSynMgr = null;
         }
     }
  }

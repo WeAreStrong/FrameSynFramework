@@ -34,7 +34,7 @@ public class LuaManager : MonoBehaviour
         mUpdateFunc = m_kLuaState.GetFunction("Update");
     }
 
-    void Update()
+    public void OnUpdate()
     {
         mUpdateFunc.Call();
     }

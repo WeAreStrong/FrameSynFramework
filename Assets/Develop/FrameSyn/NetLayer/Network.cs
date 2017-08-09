@@ -6,7 +6,7 @@
         {
             if (frameId == 0)
             {
-                DemoStart.instance.frameSynMgr.Begin();
+                MainGame.mFrameSynMgr.Begin();
             }
 
             FrameType fType = (FrameType)type;
@@ -35,7 +35,7 @@
         {
             if (frameId == 0)
             {
-                DemoStart2.instance.frameSynMgr.Begin();
+                MainGame.mFrameSynMgr.Begin();
             }
 
             FrameType fType = (FrameType)type;

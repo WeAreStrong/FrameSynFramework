@@ -5,11 +5,7 @@ using System.Collections;
 public class DemoStart2 : MonoBehaviour
 {
     public static DemoStart2 instance;
-
-    public LuaManager luaMgr;
-
-    public FrameSynMgr frameSynMgr;
-
+    
     public BallController ballController;
 
     public GameObject followGO;
@@ -22,8 +18,8 @@ public class DemoStart2 : MonoBehaviour
     IEnumerator Start()
     {
         instance = this;
-        luaMgr = gameObject.AddComponent<LuaManager>();
-        frameSynMgr = gameObject.AddComponent<FrameSynMgr>();
+        MainGame.mLuaMgr = gameObject.AddComponent<LuaManager>();
+        MainGame.mFrameSynMgr = gameObject.AddComponent<FrameSynMgr>();
         ballController = ball.AddComponent<BallController>();
 
         Follow follow = followGO.AddComponent<Follow>();
@@ -32,7 +28,7 @@ public class DemoStart2 : MonoBehaviour
 
         MainGame.mShowLoop.updates.Add(follow.OnUpdate);
 
-        luaMgr.CallFunction("SetDemo2", Settings.USER1);
+        MainGame.mLuaMgr.CallFunction("SetDemo2", Settings.USER1);
     }
 
     void OnDestroy()
