@@ -8,6 +8,8 @@ public class DemoStart2 : MonoBehaviour
     
     public BallController ballController;
 
+    public CollectInput input;
+
     public GameObject followGO;
 
     public GameObject cam;
@@ -27,7 +29,9 @@ public class DemoStart2 : MonoBehaviour
         yield return null;
 
         MainGame.mShowLoop.updates.Add(follow.OnUpdate);
+        input = new CollectInput();
 
+        MainGame.mShowLoop.updates.Add(input.Collect);
         MainGame.mLuaMgr.CallFunction("SetDemo2", Settings.USER1);
     }
 

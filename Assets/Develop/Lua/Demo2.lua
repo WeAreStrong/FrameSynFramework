@@ -8,11 +8,11 @@ function Ready()
 
 	        local frameID = nil;
 	        local frameType = nil;
-	        --local hs = {};
-	        --local vs = {};
-	        --local jumps = {};
-	        local pressTs = {};
 	        local fids = {};
+	        local hs = {};
+	        local vs = {};
+	        local jumps = {};
+	        local pressTs = {};
 
 	        for i = 1,  #tbMsg.cmds do
 	        	local cmd = tbMsg.cmds[i];
@@ -40,15 +40,15 @@ function Ready()
 	        		if (frameType == nil) then
 	        			frameType = FrameType.Key;
 	        		end
-	        		--hs[i] = h;
-	        		--vs[i] = v;
-	        		--jumps[i] = jump;
+	        		hs[i] = h;
+	        		vs[i] = v;
+	        		jumps[i] = jump;
 	        		pressTs[i] = pressT;
 			        fids[i] = clickFrameID;
 	    		end
 	        end
-	        --FrameSyn.Network.Network.OnFrameStep(frameID, frameType, hs, vs, jumps, pressTs);
-	        FrameSyn.Network.Network.OnFrameStep(frameID, frameType, fids, nil, nil, nil, pressTs);
+	        FrameSyn.Network.Network.OnFrameStep(frameID, frameType, fids, hs, vs, jumps, pressTs);
+	        --FrameSyn.Network.Network.OnFrameStep(frameID, frameType, fids, nil, nil, nil, pressTs);
         end);
     end);
 
@@ -60,7 +60,7 @@ function Ready()
 	Socket:Request("battle.battleHandler.enterAndReady", param);
 end
 
---[[function Control(inh, inv, injump, inpressT, frameID)
+function Control(inh, inv, injump, inpressT, frameID)
 	local param = 
     {
     	type = "shoot",
@@ -74,9 +74,9 @@ end
         }
     }
 	Socket:Request("battle.battleHandler.operate", param);
-end]]
+end
 
-function Control(inpressT, frameID)
+--[[function Control(inpressT, frameID)
 	local param = 
     {
     	type = "shoot",
@@ -87,4 +87,4 @@ function Control(inpressT, frameID)
         }
     }
 	Socket:Request("battle.battleHandler.operate", param);
-end
+end]]

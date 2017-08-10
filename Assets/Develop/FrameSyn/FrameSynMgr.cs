@@ -32,17 +32,17 @@ public class FrameSynMgr : MonoBehaviour
 
         if (RealTime.frameCount < MainGame.mFrameList.lockFrameID)
         {
-            int rate1 = MainGame.mFrameList.speedupRate;
+            MainGame.mShowLoop.Update();
+            /*int rate1 = MainGame.mFrameList.speedupRate;
             for (int i = 1; i <= rate1; ++i)
             {
                 MainGame.mLogicLoop.Update();
             }
 
-            int rate2 = rate1;
             for (int i = 1; i <= rate1; ++i)
             {
                 MainGame.mShowLoop.Update();
-            }
+            }*/
         }
 	}
 

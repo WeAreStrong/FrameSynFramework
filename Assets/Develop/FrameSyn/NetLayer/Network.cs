@@ -51,9 +51,9 @@
                 {
                     ControllerData opaData = ControllerData.mPool.Get();
                     opaData.frameID = fids[i];
-                    //opaData.h = hs[i];
-                    //opaData.v = vs[i];
-                    //opaData.jump = jumps[i];
+                    opaData.h = hs[i];
+                    opaData.v = vs[i];
+                    opaData.jump = jumps[i];
                     opaData.pressT = pressTs[i];
                     keyFrame.mOpaData.Add(opaData);
                 }
@@ -61,6 +61,7 @@
                 MainGame.mFrameList.AddFrame(frameId, keyFrame);
             }
             MainGame.mFrameList.LockFrame();
+            MainGame.mFrameList.LogicUpdate();
         }
     }
 }

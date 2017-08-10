@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using FrameSyn;
 
 [RequireComponent(typeof(Rigidbody))]
 public class BallController : MonoBehaviour
@@ -38,29 +37,7 @@ public class BallController : MonoBehaviour
 	void Start ()
     {
         mBall = gameObject.GetComponent<Rigidbody>();
-
-        MainGame.mShowLoop.updates.Add(OnShowUpdate);
-
-        Physics.autoSimulation = false;
 	}
-
-    void OnShowUpdate()
-    {
-        // Get the axis and jump input.
-        float h = Input.GetAxis("Horizontal");
-        float v = Input.GetAxis("Vertical");
-        bool jump = Input.GetButton("Jump");
-        bool pressT = Input.GetKey(KeyCode.T);
-        //OnSyncUpdate(h, v, jump, pressT);
-        /*if (h * v != 0 || jump || pressT)
-        {
-            DemoStart2.instance.luaMgr.CallFunction("Demo2.Control", h, v, jump, pressT, RealTime.frameCount);
-        }*/
-        if (pressT)
-        {
-            MainGame.mLuaMgr.CallFunction("Demo2.Control", pressT, RealTime.frameCount);
-        }
-    }
 
     public void OnSyncUpdate(float h, float v, bool jump, bool pressT)
     {
