@@ -39,15 +39,10 @@ public class BallController : MonoBehaviour
     {
         mBall = gameObject.GetComponent<Rigidbody>();
 
-        MainGame.mLogicLoop.updates.Add(OnUpdate);
         MainGame.mShowLoop.updates.Add(OnShowUpdate);
 
         Physics.autoSimulation = false;
 	}
-
-    void OnUpdate()
-    {
-    }
 
     void OnShowUpdate()
     {
@@ -106,7 +101,5 @@ public class BallController : MonoBehaviour
         {
             mBall.AddForce(camForward * 100);
         }
-
-        Physics.Simulate(1f / Settings.ShowUpdateCycle);
     }
 }

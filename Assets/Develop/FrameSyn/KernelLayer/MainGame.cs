@@ -12,6 +12,7 @@
 
         public static void Init()
         {
+            Physics.PhysicsEngine.Init();
             mKeyFramePool = new Pool<KeyFrame>();
             mFillFramePool = new Pool<FillFrame>();
 
@@ -34,6 +35,7 @@
 
         public static void Release()
         {
+            Physics.PhysicsEngine.Release();
             mKeyFramePool.Release();
             mFillFramePool.Release();
             mFrameList.Clear();

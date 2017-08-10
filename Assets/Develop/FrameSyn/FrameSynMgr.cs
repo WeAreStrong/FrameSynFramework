@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using FrameSyn;
+using FrameSyn.Physics;
 
 public class FrameSynMgr : MonoBehaviour
 {
@@ -18,6 +19,7 @@ public class FrameSynMgr : MonoBehaviour
         //------------ Add show updates
         MainGame.mShowLoop.updates.Add(RealTime.OnUpdate);
         MainGame.mShowLoop.updates.Add(MainGame.mFrameList.ShowUpdate);
+        MainGame.mShowLoop.updates.Add(PhysicsEngine.OnUpdate);
 
         RealTime.Reset();
 	}
@@ -28,16 +30,19 @@ public class FrameSynMgr : MonoBehaviour
         MainGame.mLuaMgr.OnUpdate();
         if (mBegin == false) return;
 
-        int rate1 = MainGame.mFrameList.speedupRate;
-        for (int i = 1; i <= rate1; ++i)
+        if (RealTime.frameCount < MainGame.mFrameList.lockFrameID)
         {
-            MainGame.mLogicLoop.Update();
-        }
+            int rate1 = MainGame.mFrameList.speedupRate;
+            for (int i = 1; i <= rate1; ++i)
+            {
+                MainGame.mLogicLoop.Update();
+            }
 
-        int rate2 = rate1;
-        for (int i = 1; i <= rate1; ++i)
-        {
-            MainGame.mShowLoop.Update();
+            int rate2 = rate1;
+            for (int i = 1; i <= rate1; ++i)
+            {
+                MainGame.mShowLoop.Update();
+            }
         }
 	}
 

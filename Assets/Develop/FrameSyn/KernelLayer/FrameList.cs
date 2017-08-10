@@ -28,7 +28,7 @@
         public void LockFrame()
         {
             ++mFrameIdx;
-            mLockFrameID = mFrameIdx * Settings.ServerFrameStep;
+            mLockFrameID = mFrameIdx * Settings.ServerFrameStep * Settings.PeriodicShowUpdateTimes();
         }
 
         public void LogicUpdate()
