@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
+using TrueSync;
 
-[RequireComponent(typeof(Rigidbody))]
+[RequireComponent(typeof(TSRigidBody))]
 public class BallController : MonoBehaviour
 {
     public bool m_UseTorque = true;
@@ -9,14 +10,14 @@ public class BallController : MonoBehaviour
 
     private const float k_GroundRayLength = 1f; // The length of the ray to check if the ball is grounded.
 
-    public Vector3 move;
+    public TSVector move;
     // the world-relative desired move direction, calculated from the camForward and user input.
 
     private Transform cam; // A reference to the main camera in the scenes transform
-    private Vector3 camForward; // The current forward direction of the camera
+    private TSVector camForward; // The current forward direction of the camera
     //private bool mJump; // whether the jump button is currently pressed
 
-    private Rigidbody mBall;
+    private TSRigidBody mBall;
 
     private void Awake()
     {
@@ -36,29 +37,31 @@ public class BallController : MonoBehaviour
 	// Use this for initialization
 	void Start ()
     {
-        mBall = gameObject.GetComponent<Rigidbody>();
+        mBall = gameObject.GetComponent<TSRigidBody>();
 	}
 
-    public void OnSyncUpdate(float h, float v, bool jump, bool pressT)
+    public void OnSyncUpdate(FP h, FP v, bool jump, bool pressT)
     {
         // calculate move direction
         if (cam != null)
         {
             // calculate camera relative direction to move:
-            camForward = Vector3.Scale(cam.forward, new Vector3(1, 0, 1)).normalized;
-            move = (v * camForward + h * cam.right).normalized;
+            Vector3 forward = cam.forward;
+            camForward = TSVector.Scale(new TSVector(forward.x, forward.y, forward.z), new TSVector(1, 0, 1)).normalized;
+            Vector3 right = cam.right;
+            move = (v * camForward + h * new TSVector(right.x, right.y, right.z)).normalized;
         }
         else
         {
             // we use world-relative directions in the case of no main camera
-            move = (v * Vector3.forward + h * Vector3.right).normalized;
+            move = (v * TSVector.forward + h * TSVector.right).normalized;
         }
 
         // If using torque to rotate the ball...
         if (m_UseTorque)
         {
             // ... add torque around the axis defined by the move direction.
-            mBall.AddTorque(new Vector3(move.z, 0, -move.x) * m_MovePower);
+            mBall.AddTorque(new TSVector(move.z, 0, -move.x) * m_MovePower);
         }
         else
         {
@@ -70,7 +73,7 @@ public class BallController : MonoBehaviour
         if (Physics.Raycast(transform.position, -Vector3.up, k_GroundRayLength) && jump)
         {
             // ... add force in upwards.
-            mBall.AddForce(Vector3.up * m_JumpPower, ForceMode.Impulse);
+            mBall.AddForce(TSVector.up * m_JumpPower, ForceMode.Impulse);
         }
         jump = false;
 
