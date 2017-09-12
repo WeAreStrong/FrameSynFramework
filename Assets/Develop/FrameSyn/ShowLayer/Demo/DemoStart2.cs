@@ -22,13 +22,14 @@ public class DemoStart2 : MonoBehaviour
         instance = this;
         MainGame.mLuaMgr = gameObject.AddComponent<LuaManager>();
         MainGame.mFrameSynMgr = gameObject.AddComponent<FrameSynMgr>();
+
         ballController = ball.AddComponent<BallController>();
 
         Follow follow = followGO.AddComponent<Follow>();
         follow.mTarget = ball.transform;
         yield return null;
 
-        MainGame.mShowLoop.updates.Add(follow.OnUpdate);
+        //MainGame.mShowLoop.updates.Add(follow.OnUpdate);
         input = new CollectInput();
 
         MainGame.mShowLoop.updates.Add(input.Collect);

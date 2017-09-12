@@ -1,11 +1,13 @@
 ﻿namespace FrameSyn
 {
+    using TrueSync;
+
     public class ControllerData : OperationData , IRecycleable
     {
         public static Pool<ControllerData> mPool = new Pool<ControllerData>();
 
-        public float h;
-        public float v;
+        public FP h;
+        public FP v;
         public bool jump;
         public bool pressT;
 
@@ -23,8 +25,8 @@
 
         public void OnRecycle()
         {
-            h = 0f;
-            v = 0f;
+            h = 0;
+            v = 0;
             jump = false;
             pressT = false;
         }

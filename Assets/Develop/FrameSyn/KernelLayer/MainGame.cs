@@ -12,7 +12,6 @@
 
         public static void Init()
         {
-            TrueSync.TrueSyncManager.Init();
             Physics.PhysicsEngine.Init();
             mKeyFramePool = new Pool<KeyFrame>();
             mFillFramePool = new Pool<FillFrame>();

@@ -5,10 +5,10 @@ using TrueSync;
 public class BallController : MonoBehaviour
 {
     public bool m_UseTorque = true;
-    public float m_MovePower = 5;
-    public float m_JumpPower = 2; // The force added to the ball when it jumps.
+    public FP m_MovePower = 5;
+    public FP m_JumpPower = 2; // The force added to the ball when it jumps.
 
-    private const float k_GroundRayLength = 1f; // The length of the ray to check if the ball is grounded.
+    private const float k_GroundRayLength = 1; // The length of the ray to check if the ball is grounded.
 
     public TSVector move;
     // the world-relative desired move direction, calculated from the camForward and user input.
@@ -46,10 +46,8 @@ public class BallController : MonoBehaviour
         if (cam != null)
         {
             // calculate camera relative direction to move:
-            Vector3 forward = cam.forward;
-            camForward = TSVector.Scale(new TSVector(forward.x, forward.y, forward.z), new TSVector(1, 0, 1)).normalized;
-            Vector3 right = cam.right;
-            move = (v * camForward + h * new TSVector(right.x, right.y, right.z)).normalized;
+            camForward = TSVector.Scale(cam.forward.ToTSVector(), new TSVector(1, 0, 1)).normalized;
+            move = (v * camForward + h * cam.right.ToTSVector()).normalized;
         }
         else
         {
@@ -70,7 +68,7 @@ public class BallController : MonoBehaviour
         }
 
         // If on the ground and jump is pressed...
-        if (Physics.Raycast(transform.position, -Vector3.up, k_GroundRayLength) && jump)
+        if (Physics.Raycast(mBall.tsTransform.position.ToVector(), -Vector3.up, k_GroundRayLength) && jump)
         {
             // ... add force in upwards.
             mBall.AddForce(TSVector.up * m_JumpPower, ForceMode.Impulse);

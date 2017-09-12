@@ -1,22 +1,22 @@
 ﻿namespace FrameSyn.Physics
 {
-    using UnityEngine;
+    using TrueSync;
 
     public class PhysicsEngine
     {
         public static void Init()
         {
-            Physics.autoSimulation = false;
+            TrueSyncManager.Init();
         }
 
         public static void OnUpdate()
         {
-            Physics.Simulate(1f / Settings.ShowUpdateCycle);
+            PhysicsManager.instance.UpdateStep();
         }
 
         public static void Release()
         {
-            Physics.autoSimulation = false;
+            TrueSyncManager.CleanUp();
         }
     }
 }
