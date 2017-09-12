@@ -16,6 +16,8 @@ public class DemoStart2 : MonoBehaviour
 
     public GameObject ball;
 
+    public GameObject battleView;
+
     // Use this for initialization
     IEnumerator Start()
     {
@@ -33,7 +35,7 @@ public class DemoStart2 : MonoBehaviour
         input = new CollectInput();
 
         MainGame.mShowLoop.updates.Add(input.Collect);
-        MainGame.mLuaMgr.CallFunction("SetDemo2", Settings.USER1);
+        MainGame.mLuaMgr.CallFunction("SetDemo2", Settings.USER1, battleView);
     }
 
     void OnDestroy()

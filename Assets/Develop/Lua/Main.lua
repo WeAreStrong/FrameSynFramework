@@ -8,9 +8,6 @@ local mTcpPrefix = 'fifa-dev.mbgadev.cn';
 --local mTcpPrefix = '172.21.175.94';
 local mTcpPort = 3050;
 
-ROOM_ID = 99;
-ROOM_SIZE = 1;
-
 FrameType =
 {
     Fill = 0,
@@ -48,7 +45,9 @@ function SetDemo1(_uid)
     Socket:InitClient(mTcpPrefix, mTcpPort, function(data) connectLogic() end);
 end
 
-function SetDemo2(_uid)
+function SetDemo2(_uid, battleView)
+    Demo2.Init(battleView);
+
     local user = 
     {
         uid = _uid,
@@ -58,7 +57,7 @@ function SetDemo2(_uid)
         Socket:Connect(user,
             function()
                 Socket:Request1('connector.entryHandler.enter', user,
-                    function() Demo2.Ready(); end);
+                    function() Demo2.Match(); end);
             end);
     end
     Socket:InitClient(mTcpPrefix, mTcpPort, function(data) connectLogic() end);

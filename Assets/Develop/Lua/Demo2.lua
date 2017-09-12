@@ -1,6 +1,13 @@
 module("Demo2", package.seeall)
 
-function Ready()
+local btnReady = nil;
+
+function Init(battleView)
+	btnReady = battleView.transform:Find("ReadyButton").gameObject;
+	Utility.AddClickEvent(btnReady, function() Socket:Request("battle.battleHandler.ready", nil); end);
+end
+
+function Match()
     Socket:OnPushEvent("onTick", function(msg)
         SocketQueue:Push(function()
         	print(msg);
@@ -52,12 +59,10 @@ function Ready()
         end);
     end);
 
-    local param = 
-    {
-        rid = ROOM_ID,
-        rsize = ROOM_SIZE
-    }
-	Socket:Request("battle.battleHandler.enterAndReady", param);
+    Socket:OnPushEvent('onMatch', function(s)
+        SocketQueue:Push(function() btnReady:SetActive(true); end);
+    end);
+    Socket:Request("battle.battleHandler.match", nil);
 end
 
 function Control(inh, inv, injump, inpressT, frameID)

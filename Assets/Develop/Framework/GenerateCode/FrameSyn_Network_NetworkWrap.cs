@@ -48,8 +48,8 @@ public class FrameSyn_Network_NetworkWrap
 			{
 				int arg0 = (int)LuaDLL.lua_tonumber(L, 1);
 				int arg1 = (int)LuaDLL.lua_tonumber(L, 2);
-                int[] arg2 = ToLua.CheckNumberArray<int>(L, 3);
-                UnityEngine.Vector2[] arg3 = ToLua.CheckObjectArray<UnityEngine.Vector2>(L, 4);
+				int[] arg2 = ToLua.CheckNumberArray<int>(L, 3);
+				UnityEngine.Vector2[] arg3 = ToLua.CheckObjectArray<UnityEngine.Vector2>(L, 4);
 				FrameSyn.Network.Network.OnFrameStep(arg0, arg1, arg2, arg3);
 				return 0;
 			}
@@ -57,12 +57,12 @@ public class FrameSyn_Network_NetworkWrap
 			{
 				int arg0 = (int)LuaDLL.lua_tonumber(L, 1);
 				int arg1 = (int)LuaDLL.lua_tonumber(L, 2);
-                int[] arg2 = ToLua.CheckNumberArray<int>(L, 3);
-                float[] arg3 = ToLua.CheckNumberArray<float>(L, 4);
+				int[] arg2 = ToLua.CheckNumberArray<int>(L, 3);
+				float[] arg3 = ToLua.CheckNumberArray<float>(L, 4);
 				float[] arg4 = ToLua.CheckNumberArray<float>(L, 5);
 				bool[] arg5 = ToLua.CheckBoolArray(L, 6);
-                bool[] arg6 = ToLua.CheckBoolArray(L, 7);
-                FrameSyn.Network.Network.OnFrameStep(arg0, arg1, arg2, arg3, arg4, arg5, arg6);
+				bool[] arg6 = ToLua.CheckBoolArray(L, 7);
+				FrameSyn.Network.Network.OnFrameStep(arg0, arg1, arg2, arg3, arg4, arg5, arg6);
 				return 0;
 			}
 			else
