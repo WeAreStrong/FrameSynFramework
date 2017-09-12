@@ -54,13 +54,11 @@ public class FrameSynMgr : MonoBehaviour
         MainGame.mShowLoop.LateUpdate();
     }
 
-    [ContextMenu("Begin")]
     public void Begin()
     {
         mBegin = true;
     }
 
-    [ContextMenu("End")]
     public void End()
     {
         mBegin = false;

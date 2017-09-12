@@ -4,7 +4,10 @@ local btnReady = nil;
 
 function Init(battleView)
 	btnReady = battleView.transform:Find("ReadyButton").gameObject;
-	Utility.AddClickEvent(btnReady, function() Socket:Request("battle.battleHandler.ready", nil); end);
+	Utility.AddClickEvent(btnReady, function()
+		btnReady:SetActive(false);
+		Socket:Request("battle.battleHandler.ready", nil);
+	end);
 end
 
 function Match()
@@ -60,7 +63,10 @@ function Match()
     end);
 
     Socket:OnPushEvent('onMatch', function(s)
-        SocketQueue:Push(function() btnReady:SetActive(true); end);
+        SocketQueue:Push(function()
+        	print("handle 'onMatch' msg = '"..s.."'");
+        	btnReady:SetActive(true);
+        end);
     end);
     Socket:Request("battle.battleHandler.match", nil);
 end
